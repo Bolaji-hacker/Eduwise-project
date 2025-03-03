@@ -32,13 +32,13 @@ export default function Sidebar() {
             url: "my_course",
             path: "/dashboard/my_course",
         },
-        {
-            id: 6,
-            label: "Careers",
-            // url: "jobs",
-            url: "jobs",
-            path: "/dashboard/jobs",
-        },
+        // {
+        //     id: 6,
+        //     label: "Careers",
+        //     // url: "jobs",
+        //     url: "jobs",
+        //     path: "/dashboard/jobs",
+        // },
     ];
 
     useEffect(() => {
@@ -87,9 +87,8 @@ export default function Sidebar() {
                             <Link
                                 key={id}
                                 to={`${url}`}
-                                className={`p-4 hover:text-[#e74a60] ${
-                                    pathname === path ? "text-[#e74a60]" : ""
-                                } `}
+                                className={`p-4 hover:text-[#e74a60] ${pathname === path ? "text-[#e74a60]" : ""
+                                    } `}
                             >
                                 {label}
                             </Link>
