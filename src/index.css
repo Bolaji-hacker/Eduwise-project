@@ -1,0 +1,42 @@
+@import url(https://db.onlinewebfonts.com/c/a575313c6dc4fd00c1a9506e1c3ea4fc?family=Euclid+Circular+A);
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    font-family: "Euclid Circular A";
+    font-size: 16px;
+    background-color: #fafafa;
+}
+
+.authLinePattern {
+    background-image: url(assets/authLinePattern.png);
+}
+
+@layer components {
+    .input {
+        @apply block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-[#2954ce] sm:text-sm/6;
+    }
+
+    .btn {
+        @apply flex w-full justify-center rounded-md px-3 text-sm/6 font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2954ce] py-2 disabled:cursor-not-allowed disabled:opacity-50;
+    }
+
+    .btn_primary {
+        @apply bg-[#2954ce] hover:bg-indigo-500;
+    }
+}
+
+@media (min-width: 1540px) {
+    body {
+        /* background-color: red; */
+        font-size: 18px;
+    }
+}
+
+@media (min-width: 1800px) {
+    body {
+        font-size: 20px;
+    }
+}

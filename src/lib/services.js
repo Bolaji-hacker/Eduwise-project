@@ -1,0 +1,142 @@
+import apiClient from "./axiosInstance";
+
+export const loginUser = async (credentials) => {
+    try {
+        const response = await apiClient.post("/login", credentials);
+        return response.data;
+    } catch (error) {
+        console.error("Error logging in:", error);
+        throw error;
+    }
+};
+export const forgetPassword = async (credentials) => {
+    try {
+        const response = await apiClient.post("/forgot-password", credentials);
+        return response.data;
+    } catch (error) {
+        console.error("Error Forget password:", error);
+        throw error;
+    }
+};
+export const resetPassword = async (token, credentials) => {
+    try {
+        const response = await apiClient.patch(
+            `/reset-password/${token}`,
+            credentials
+        );
+        return response.data;
+    } catch (error) {
+        console.error("Error Forget password:", error);
+        throw error;
+    }
+};
+
+// User Registration
+export const registerUser = async (userData) => {
+    try {
+        const response = await apiClient.post("/register", userData);
+        return response.data;
+    } catch (error) {
+        console.error("Error  registerUser:", error);
+        throw error;
+    }
+};
+// get-user-details
+export const getUserDetails = async () => {
+    try {
+        const response = await apiClient.get(`/get-user-details`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching getUserDetails:", error);
+        throw error;
+    }
+};
+
+// get-all-courses
+export const getAllCourse = async () => {
+    try {
+        const response = await apiClient.get(`/all-courses`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching all course:", error);
+        throw error;
+    }
+};
+
+// enroll for a course
+export const enrollCourse = async (courseId) => {
+    try {
+        const response = await apiClient.post(`/enroll/${courseId}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching enroll course:", error);
+        throw error;
+    }
+};
+// get enrolled courses
+export const getEnrolledCourse = async () => {
+    try {
+        const response = await apiClient.get(`/get-enrolled-courses`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching course:", error);
+        throw error;
+    }
+};
+
+// mark lesson as watch
+export const watchLessson = async (courseId, sectionTitle, lessonTitle) => {
+    try {
+        const response = await apiClient.patch(
+            `/courses/${courseId}/sections/${sectionTitle}/lessons/${lessonTitle}/watched"`
+        );
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching course:", error);
+        throw error;
+    }
+};
+// get suggestted job
+export const getSuggestJobs = async () => {
+    try {
+        const response = await apiClient.get(`/suggest-job/interest`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching jobs:", error);
+        throw error;
+    }
+};
+
+// update user profile
+export const updateUser = async (userData) => {
+    try {
+        const formData = new FormData();
+        formData.append("fullName", userData.fullName);
+        formData.append("email", userData.email);
+        formData.append("userImage", userData.userImage);
+        userData.interests.forEach((interest) => {
+            formData.append("interests", interest);
+        });
+
+        const response = await apiClient.patch(`/update/user`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error updating user info:", error);
+        throw error;
+    }
+};
+
+// courses content
+export const courseContent = async (courseId) => {
+    try {
+        const response = await apiClient.get(`/courses/${courseId}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching course:", error);
+        throw error;
+    }
+};
