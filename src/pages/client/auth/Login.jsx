@@ -28,8 +28,13 @@ const Login = () => {
             const response = await loginUser(credentials);
             toast.success(response.message);
             Cookies.set("authToken", response?.token, { expires: 3 });
+            // console.log("res", )
             setTimeout(() => {
-                window.location.href = "/dashboard";
+                if (response?.user?.role === "admin") {
+                    window.location.href = "/admin_dashboard";
+                } else {
+                    window.location.href = "/dashboard";
+                }
             }, 2000);
         } catch (error) {
             toast.error(error?.response?.data?.error);

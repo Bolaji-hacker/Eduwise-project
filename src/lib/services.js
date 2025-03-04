@@ -140,3 +140,27 @@ export const courseContent = async (courseId) => {
         throw error;
     }
 };
+
+
+// create course
+
+export const createCourse = async (credentials) => {
+    try {
+        const response = await apiClient.post("/create-course", credentials);
+        return response.data;
+    } catch (error) {
+        console.error("Error logging in:", error);
+        throw error;
+    }
+};
+
+// create lessons 
+export const createLessons = async (courseId, credentials) => {
+    try {
+        const response = await apiClient.post(`add-content/${courseId}`, credentials);
+        return response.data;
+    } catch (error) {
+        console.error("Error logging in:", error);
+        throw error;
+    }
+};

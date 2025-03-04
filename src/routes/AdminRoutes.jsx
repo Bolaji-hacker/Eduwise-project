@@ -1,19 +1,14 @@
 import { Navigate } from "react-router-dom";
 import Sidebar from "../components/common/SIdeBar";
-import AuthLayout from "../Layout/AuthLayout";
-import ForgetPassword from "../pages/client/auth/ForgetPassword";
-import Login from "../pages/client/auth/Login";
-import Register from "../pages/client/auth/Register";
-import Dashboard from "../pages/client/Dashboard";
-import MyCourse from "../pages/client/MyCourse";
 import ProtectedRoute from "./ProtectedRoute";
 import Profile from "../pages/client/Profile";
-import Jobs from "../pages/client/Jobs";
-import MyCourseContent from "../pages/client/MyCourseContent";
+// import MyCourseContent from "../pages/client/MyCourseContent";
 import AllCourse from "../pages/client/AllCourse";
-import Admin from "../pages/client/Admin";
-import ResetPassword from "../pages/client/auth/ResetPassword";
 import Cookies from "js-cookie";
+import AdminDashboard from "../pages/admin/AdminDashboard";
+import AllAdminCourse from "../components/admin/AdminCourses/AllAdminCourse";
+import CreateCourse from "../components/admin/AdminCourses/CreateCourse";
+import ManageLessons from "../components/admin/AdminCourses/ManageLessons";
 
 export const adminRoutes = [
     {
@@ -22,96 +17,97 @@ export const adminRoutes = [
             {
                 path: "",
                 element: Cookies.get("authToken") ? (
-                    <Navigate to="/dashboard/courses" replace />
+                    <Navigate to="/admin_dashboard/courses" replace />
                 ) : (
                     <Navigate to="/courses" replace />
                 ),
             },
 
             {
-                path: "courses",
+                path: "admin_courses",
                 element: Cookies.get("authToken") ? (
-                    <Navigate to="/dashboard/courses" replace />
+                    <Navigate to="/admin_dashboard/courses" replace />
                 ) : (
                     <AllCourse />
                 ),
             },
             {
-                path: "dashboard",
+                path: "admin_dashboard",
                 element: <Sidebar />,
                 children: [
                     {
                         path: "",
                         element: (
                             <ProtectedRoute>
-                                <Dashboard />
+                                <AdminDashboard />
                             </ProtectedRoute>
                         ),
                     },
                     {
-                        path: "my_course",
+                        path: "admin_my_course",
                         element: (
                             <ProtectedRoute>
-                                <MyCourse />
+                                <AllAdminCourse />
                             </ProtectedRoute>
                         ),
                     },
                     {
-                        path: "courses",
+                        path: "manage_lessons/:courseId",
                         element: (
                             <ProtectedRoute>
-                                <AllCourse />
+                                <ManageLessons />
                             </ProtectedRoute>
                         ),
                     },
                     {
-                        path: "my_course/:id",
+                        path: "create_courses",
                         element: (
                             <ProtectedRoute>
-                                <MyCourseContent />
+                                <CreateCourse />
                             </ProtectedRoute>
                         ),
                     },
+                    // {
+                    //     path: "admin_my_course/:id",
+                    //     element: (
+                    //         <ProtectedRoute>
+                    //             <MyCourseContent />
+                    //         </ProtectedRoute>
+                    //     ),
+                    // },
 
                     {
-                        path: "profile",
+                        path: "admin_profile",
                         element: (
                             <ProtectedRoute>
                                 <Profile />
                             </ProtectedRoute>
                         ),
                     },
-                    {
-                        path: "jobs",
-                        element: (
-                            <ProtectedRoute>
-                                <Jobs />
-                            </ProtectedRoute>
-                        ),
-                    },
-                    {
-                        path: "admin/upload",
-                        element: <Admin />,
-                    },
+
+                    // {
+                    //     path: "admin/upload",
+                    //     element: <Admin />,
+                    // },
                 ],
             },
         ],
     },
-    {
-        path: "/",
-        element: <AuthLayout />,
-        children: [
-            { path: "register", element: <Register /> },
-            {
-                path: "login",
-                element: Cookies.get("authToken") ? (
-                    <Navigate to="/courses" replace />
-                ) : (
-                    <Login />
-                ),
-            },
-            { path: "forget_password", element: <ForgetPassword /> },
-            { path: "reset_password", element: <ResetPassword /> },
-        ],
-    },
+    // {
+    //     path: "/",
+    //     element: <AuthLayout />,
+    //     children: [
+    //         { path: "register", element: <Register /> },
+    //         {
+    //             path: "login",
+    //             element: Cookies.get("authToken") ? (
+    //                 <Navigate to="/courses" replace />
+    //             ) : (
+    //                 <Login />
+    //             ),
+    //         },
+    //         { path: "forget_password", element: <ForgetPassword /> },
+    //         { path: "reset_password", element: <ResetPassword /> },
+    //     ],
+    // },
 ];

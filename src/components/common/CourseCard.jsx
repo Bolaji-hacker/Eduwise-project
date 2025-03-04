@@ -5,7 +5,7 @@ import { useAuthContext, useGlobalContext } from "../../context/ContextExport";
 export function CourseCard({ item, path, enrolFunc, isEnrolled }) {
     const navigate = useNavigate();
     const { isLoggedIn } = useAuthContext();
-    const { enrolling } = useGlobalContext();
+    const { enrolling, userRole } = useGlobalContext();
 
     const enrollUser = () => {
         if (isLoggedIn) {
@@ -45,7 +45,7 @@ export function CourseCard({ item, path, enrolFunc, isEnrolled }) {
                     </div>
                     {/* course info */}
                     <div className="pt-[0.9375rem] flex items-center justify-between gap-0">
-                        <div className="flex  flex-col gap-2 text-[#6A7A83] w-ful">
+                        {userRole !== "admin" && <div className="flex  flex-col gap-2 text-[#6A7A83] w-ful">
                             <div className="flex items-center gap-[0.625rem]">
                                 <FaCalendarWeek />{" "}
                                 <p className="text-sm">{duration} Days</p>
@@ -56,36 +56,58 @@ export function CourseCard({ item, path, enrolFunc, isEnrolled }) {
                                     {enrolledStudents} Students
                                 </p>
                             </div>
-                        </div>
-                        <div className="flex items-center w-ful">
-                            {path === "courses" ? (
-                                <>
-                                    {isEnrolled ? (
-                                        <Link
-                                            to={`/dashboard/my_course/${item?._id}`}
-                                        >
-                                            <button className="py-2 text-sm text-white  px-3 bg-[#FF5A2C] hover:bg-[#092ace]  w-full">
-                                                Continue
-                                            </button>
-                                        </Link>
-                                    ) : (
-                                        <button
-                                            className="py-2 text-sm text-white  px-3 bg-[#FF5A2C] hover:bg-[#092ace]  w-full flex-shrink-0 disabled:cursor-not-allowed disabled:opacity-50 "
-                                            onClick={enrollUser}
-                                            disabled={enrolling}
-                                        >
-                                            Enroll Now
-                                        </button>
-                                    )}
-                                </>
-                            ) : (
-                                <Link to={`/dashboard/my_course/${item?._id}`}>
-                                    <button className="py-2 text-sm text-white  px-3 bg-[#FF5A2C] hover:bg-[#092ace]  w-full">
-                                        Continue
+                        </div>}
+                        {userRole === "admin" ?
+                            (<div className="flex items-center w-full justify-between">
+                                <Link
+                                    to={`/dashboard/my_course/${item?._id}`}
+                                    className="block"
+                                >
+                                    <button className="py-2 text-sm text-white  bg-[#092ace] w-fit px-5">
+                                        Edit
                                     </button>
                                 </Link>
-                            )}
-                        </div>
+
+                                <button
+                                    className="py-2 text-sm text-white  px-3 bg-red-700 hover:bg-red-900  w-fit flex-shrink-0 disabled:cursor-not-allowed disabled:opacity-50 "
+                                    onClick={enrollUser}
+                                    disabled={enrolling}
+                                >
+                                    Delete
+                                </button>
+
+                            </div>)
+                            :
+                            (<div className="flex items-center w-ful">
+                                {path === "courses" ? (
+                                    <>
+                                        {isEnrolled ? (
+                                            <Link
+                                                to={`/dashboard/my_course/${item?._id}`}
+                                            >
+                                                <button className="py-2 text-sm text-white  px-3 bg-[#FF5A2C] hover:bg-[#092ace]  w-full">
+                                                    Continue
+                                                </button>
+                                            </Link>
+                                        ) : (
+                                            <button
+                                                className="py-2 text-sm text-white  px-3 bg-[#FF5A2C] hover:bg-[#092ace]  w-full flex-shrink-0 disabled:cursor-not-allowed disabled:opacity-50 "
+                                                onClick={enrollUser}
+                                                disabled={enrolling}
+                                            >
+                                                Enroll Now
+                                            </button>
+                                        )}
+                                    </>
+                                ) : (
+                                    <Link to={`/dashboard/my_course/${item?._id}`}>
+                                        <button className="py-2 text-sm text-white  px-3 bg-[#FF5A2C] hover:bg-[#092ace]  w-full">
+                                            Continue
+                                        </button>
+                                    </Link>
+                                )}
+                            </div>)
+                        }
                     </div>
                 </div>
             </div>

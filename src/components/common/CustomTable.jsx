@@ -7,6 +7,7 @@ import {
 import { useState, useMemo } from "react";
 import { TiDocumentText } from "react-icons/ti";
 import Pagination from "./Pagination";
+import PreLoader from "./PreLoader";
 
 const CustomTable = ({
     columns,
@@ -14,11 +15,13 @@ const CustomTable = ({
     bodyClassName,
     data,
     isPaginated = true,
-    onClickFunc = () => {},
-    tableType = "default",
+    onClickFunc = () => { },
+    // tableType = "default",
+    showAnimation = true,
 }) => {
     const [pageIndex, setPageIndex] = useState(0);
     const [pageSize, setPageSize] = useState(10);
+    console.log(setPageSize);
     const paginatedData = useMemo(() => {
         const start = pageIndex * pageSize;
         const end = start + pageSize;
@@ -36,12 +39,7 @@ const CustomTable = ({
         setPageIndex(newPageIndex);
     };
     // tableType that require direct click shoulb be added  here.
-    const directTableClick = [
-        "giftCardTransaction",
-        "airtimeSales",
-        "cynTransactions",
-        "admin",
-    ];
+
     return (
         <div className="">
             <div className="max-w-full w-full overflow-auto rounded-xl border-[0.2px] border-black-100  mt-5 ">
@@ -68,56 +66,69 @@ const CustomTable = ({
                             ))}
                         </thead>
                     )}
-                    {data?.length < 1 ? (
+
+
+                    {showAnimation ?
                         <tbody className="relative">
                             <tr>
                                 <td style={{ height: "50vh" }}></td>
                                 <td className="absolute top-1/2 left-1/2 -translate-x-1/2  -translate-y-1/2 flex flex-col items-center justify-center text-black-300 text-base ">
                                     {/* <DotsLoaderComponent
-                                        variant="dark"
-                                        dimension="large"
-                                    /> */}
-                                    <TiDocumentText size={40} />
-
-                                    <p>No Data to Show</p>
+                                variant="dark"
+                                dimension="large"
+                            /> */}
+                                    <PreLoader />
                                 </td>
                             </tr>
                         </tbody>
-                    ) : (
-                        <tbody>
-                            {table?.getRowModel()?.rows?.map((row) => (
-                                <tr
-                                    key={row.id}
-                                    className={`${bodyClassName} border-t-[0.2px] border-black-10`}
-                                >
-                                    {row?.getVisibleCells()?.map((cell) => (
-                                        <td
-                                            key={cell?.id}
-                                            className="font-medium text-sm py-3 px-3"
-                                            onClick={() => {
-                                                if (
-                                                    directTableClick.includes(
-                                                        tableType
-                                                    )
-                                                ) {
-                                                    onClickFunc(
-                                                        cell?.row?.original
-                                                    );
-                                                } else {
-                                                    onClickFunc();
-                                                }
-                                            }}
+                        :
+                        (<>
+
+                            {!data?.length < 1 ? (
+
+                                <tbody>
+                                    {table?.getRowModel()?.rows?.map((row) => (
+                                        <tr
+                                            key={row.id}
+                                            className={`${bodyClassName} border-t-[0.2px] border-black-10`}
                                         >
-                                            {flexRender(
-                                                cell?.column.columnDef.cell,
-                                                cell?.getContext()
-                                            )}
-                                        </td>
+                                            {row?.getVisibleCells()?.map((cell) => (
+                                                <td
+                                                    key={cell?.id}
+                                                    className="font-medium text-sm py-3 px-3"
+                                                    onClick={() => {
+
+                                                        onClickFunc();
+
+                                                    }}
+                                                >
+                                                    {flexRender(
+                                                        cell?.column.columnDef.cell,
+                                                        cell?.getContext()
+                                                    )}
+                                                </td>
+                                            ))}
+                                        </tr>
                                     ))}
-                                </tr>
-                            ))}
-                        </tbody>
-                    )}
+                                </tbody>
+                            ) : (
+                                <tbody className="relative">
+                                    <tr>
+                                        <td style={{ height: "50vh" }}></td>
+                                        <td className="absolute top-1/2 left-1/2 -translate-x-1/2  -translate-y-1/2 flex flex-col items-center justify-center text-black-300 text-base ">
+                                            {/* <DotsLoaderComponent
+                                    variant="dark"
+                                    dimension="large"
+                                /> */}
+                                            <TiDocumentText size={40} />
+
+                                            <p>No Data to Show</p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            )}
+
+                        </>)}
                 </table>
             </div>
             {isPaginated && (

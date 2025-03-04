@@ -6,7 +6,7 @@ import HeaderNav from "./HeaderNav";
 import { useGlobalContext } from "../../context/ContextExport";
 
 export default function Sidebar() {
-    const { userProfile, getUser, Logout } = useGlobalContext();
+    const { userProfile, getUser, Logout, userRole } = useGlobalContext();
     const [isOpen, setIsOpen] = useState(false);
     const { pathname } = useLocation();
     const toggleSidebar = () => {
@@ -39,6 +39,26 @@ export default function Sidebar() {
         //     url: "jobs",
         //     path: "/dashboard/jobs",
         // },
+    ];
+    const adminSideBarData = [
+        {
+            id: 1,
+            label: "Dashboard",
+            url: "/admin_dashboard",
+            path: "/admin_dashboard",
+        },
+        {
+            id: 4,
+            label: "Profile",
+            url: "admin_profile",
+            path: "/dashboard/admin_profile",
+        },
+        {
+            id: 2,
+            label: "Courses",
+            url: "admin_my_course",
+            path: "/dashboard/admin_my_course",
+        },
     ];
 
     useEffect(() => {
@@ -82,7 +102,7 @@ export default function Sidebar() {
                 </div>
 
                 <ul className="mt-4 flex flex-col ">
-                    {sideBarData?.map(({ id, url, label, path }) => {
+                    {(userRole === "admin" ? adminSideBarData : sideBarData)?.map(({ id, url, label, path }) => {
                         return (
                             <Link
                                 key={id}

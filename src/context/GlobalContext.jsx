@@ -2,6 +2,8 @@ import { useState } from "react";
 import { GlobalContext } from "./ContextExport";
 import {
     courseContent,
+    createCourse,
+    createLessons,
     enrollCourse,
     getAllCourse,
     getEnrolledCourse,
@@ -123,6 +125,31 @@ const GlobalContextProvider = ({ children }) => {
         }
     };
 
+    // CRETE COURSE
+    const handleCreateCourse = async (credentials, successFunc) => {
+        try {
+            const response = await createCourse(credentials);
+            // console.log(response);
+            successFunc?.(response)
+        } catch (error) {
+            console.error("Error creating course:", error);
+            throw error;
+        }
+    };
+    // CRETE COURSE Lessons
+    const handleAddCourseLessons = async (courseId, credentials, successFunc) => {
+        const payload = { ...credentials?.[0] }
+        try {
+            const response = await createLessons(courseId, payload);
+            // console.log(response);
+            successFunc?.(response)
+        } catch (error) {
+            console.error("Error creating course:", error);
+            throw error;
+        }
+    };
+
+
     // LogOut
     const Logout = () => {
         Cookies.remove("authToken");
@@ -156,8 +183,12 @@ const GlobalContextProvider = ({ children }) => {
         getCourseContent,
         currentCourseContent,
         currentCourse,
+        handleCreateCourse,
+        // Lessons 
+        handleAddCourseLessons,
         // Logout
         Logout,
+
     };
     return (
         <GlobalContext.Provider value={passedValue}>

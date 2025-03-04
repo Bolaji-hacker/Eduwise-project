@@ -20,6 +20,8 @@ export default {
                 green_1: "#44B649",
                 // yellow
                 yellow_1: "#FFC22E",
+                // gray
+                gray_1: "#f3f3f3",
             },
             fontFamily: {
                 circular: ["Euclid Circular A", "sans-serif"],

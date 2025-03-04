@@ -18,7 +18,7 @@ const CustomInput = ({
             {label && (
                 <label
                     htmlFor={name}
-                    className="block text-sm/6 font-medium text-gray-900 mb-2"
+                    className="block text-sm/6 font-medium text-gray-900 mb-1"
                 >
                     {label}
                 </label>
@@ -32,14 +32,13 @@ const CustomInput = ({
                     value={value}
                     onChange={onChange}
                     onBlur={onBlur}
-                    className={`block w-full rounded-md bg-white  text-base text-[#685f78] outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 disabled:cursor-not-allowed ${
-                        error && touched
-                            ? "border-red-300"
-                            : "border-[#ffdedab5]"
-                    } py-2 pl-3 pr-10 text-sm focus:border-indigo-300 focus:ring-indigo-300`}
+                    className={`block w-full rounded-md bg-white  text-base text-[#685f78] outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 disabled:cursor-not-allowed ${error && touched
+                        ? "border-red-500"
+                        : "border-[#ffdedab5]"
+                        } py-2 pl-3 pr-10 text-sm focus:border-indigo-300 focus:ring-indigo-300`}
                     {...rest}
                 />
-                {error && touched && (
+                {/* {error && touched && (
                     <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                         <svg
                             className="h-5 w-5 text-red-500"
@@ -52,7 +51,7 @@ const CustomInput = ({
                             <path d="M15.354 50.05-.707-.707A1 1 0 0013.5 49.5L15.354 48 16 49.293 13.5 50.5 12 49.207 10.354 50.05 9 48.783 7.646 49.207 6.5 48.5a1 1 0 00-1-1z" />
                         </svg>
                     </div>
-                )}
+                )} */}
 
                 {type === "password" && (
                     <button

@@ -56,11 +56,10 @@ const EnrolledCourses = () => {
                 {courseNavData?.map(({ id, title, value, navDes }) => {
                     return (
                         <Button
-                            className={` px-[0.9375rem] py-3 rounded-[0.3125rem] ${
-                                courseNav === value
+                            className={` px-[0.9375rem] py-3 rounded-[0.3125rem] ${courseNav === value
                                     ? "bg-[#ff4667] text-white"
                                     : "text-[#e9ecef] bg-[#685f78]"
-                            }`}
+                                }`}
                             key={id}
                             onClick={() => setCourseNav(value)}
                         >
