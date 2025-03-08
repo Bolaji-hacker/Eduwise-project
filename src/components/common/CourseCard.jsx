@@ -1,11 +1,14 @@
 import { FaCalendarWeek, FaUser } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext, useGlobalContext } from "../../context/ContextExport";
+import { useState } from "react";
 
 export function CourseCard({ item, path, enrolFunc, isEnrolled }) {
     const navigate = useNavigate();
     const { isLoggedIn } = useAuthContext();
-    const { enrolling, userRole } = useGlobalContext();
+    const [deleteId, setDeleteId] = useState("");
+
+    const { enrolling, userRole, deleteCourseFunc, isDeletingcourse } = useGlobalContext();
 
     const enrollUser = () => {
         if (isLoggedIn) {
@@ -25,9 +28,9 @@ export function CourseCard({ item, path, enrolFunc, isEnrolled }) {
                         src={imageUrl}
                         alt={title}
                     />
-                    <div className="absolute bottom-0 right-0 py-[0.3125rem] text-white font-semibold text-base sm:text-lg px-[1.5625rem] bg-[#092ace]">
+                    {/* <div className="absolute bottom-0 right-0 py-[0.3125rem] text-white font-semibold text-base sm:text-lg px-[1.5625rem] bg-[#092ace]">
                         Free
-                    </div>
+                    </div> */}
                 </div>
                 <div className="px-4 sm:px-4 py-6 bg-white">
                     {/* Title */}
@@ -60,7 +63,7 @@ export function CourseCard({ item, path, enrolFunc, isEnrolled }) {
                         {userRole === "admin" ?
                             (<div className="flex items-center w-full justify-between">
                                 <Link
-                                    to={`/dashboard/my_course/${item?._id}`}
+                                    to={`/admin_dashboard/edit_courses/${item?._id}`}
                                     className="block"
                                 >
                                     <button className="py-2 text-sm text-white  bg-[#092ace] w-fit px-5">
@@ -70,8 +73,11 @@ export function CourseCard({ item, path, enrolFunc, isEnrolled }) {
 
                                 <button
                                     className="py-2 text-sm text-white  px-3 bg-red-700 hover:bg-red-900  w-fit flex-shrink-0 disabled:cursor-not-allowed disabled:opacity-50 "
-                                    onClick={enrollUser}
-                                    disabled={enrolling}
+                                    onClick={() => {
+                                        setDeleteId(item?._id)
+                                        deleteCourseFunc(item?._id)
+                                    }}
+                                    disabled={isDeletingcourse && deleteId === item?._id}
                                 >
                                     Delete
                                 </button>

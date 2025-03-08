@@ -51,6 +51,17 @@ export const getUserDetails = async () => {
         throw error;
     }
 };
+// http://localhost:3000/api/total-students
+// get-student no
+export const getStudentNo = async () => {
+    try {
+        const response = await apiClient.get(`/total-students`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching:", error);
+        throw error;
+    }
+};
 
 // get-all-courses
 export const getAllCourse = async () => {
@@ -62,6 +73,28 @@ export const getAllCourse = async () => {
         throw error;
     }
 };
+
+// get-single-courses
+export const getSingleCourse = async (courseId) => {
+    try {
+        const response = await apiClient.get(`/courses/${courseId}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching all course:", error);
+        throw error;
+    }
+};
+// delete-single-courses
+export const deleteCourse = async (courseId) => {
+    try {
+        const response = await apiClient.delete(`/delete-course/${courseId}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching all course:", error);
+        throw error;
+    }
+};
+
 
 // enroll for a course
 export const enrollCourse = async (courseId) => {
@@ -157,10 +190,33 @@ export const createCourse = async (credentials) => {
 // create lessons 
 export const createLessons = async (courseId, credentials) => {
     try {
-        const response = await apiClient.post(`add-content/${courseId}`, credentials);
+        const response = await apiClient.post(`/add-content/${courseId}`, credentials);
         return response.data;
     } catch (error) {
         console.error("Error logging in:", error);
         throw error;
     }
 };
+
+// edit course 
+export const editCourse = async (courseId, credentials) => {
+    try {
+        const response = await apiClient.patch(`/edit-course/${courseId}`, credentials);
+        return response.data;
+    } catch (error) {
+        console.error("Error logging in:", error);
+        throw error;
+    }
+};
+
+// edit lessons 
+export const editLessons = async (courseId, credentials) => {
+    try {
+        const response = await apiClient.patch(`/edit-content/${courseId}`, credentials);
+        return response.data;
+    } catch (error) {
+        console.error("Error logging in:", error);
+        throw error;
+    }
+};
+

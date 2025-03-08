@@ -1,5 +1,5 @@
 import CreateCourseLayout from "../../../Layout/CreateCourseLayout";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Formik, Form, FieldArray } from 'formik';
 import * as Yup from 'yup';
 import FormikCustomInput from '../../common/FormikCustomInput';
@@ -7,13 +7,30 @@ import { IoChevronDown } from "react-icons/io5";
 import { FaPlus } from "react-icons/fa";
 import PreLoader from "../../common/PreLoader";
 import { useGlobalContext } from "../../../context/ContextExport";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const ManageLessons = () => {
+    const { pathname } = useLocation();
     const { courseId } = useParams()
+    const isEdit = pathname.includes("edit_lessons");
+    const { handleAddCourseLessons, getSingleCourseFunc, singleCourse , editCourseLessons, isEditLessons} = useGlobalContext()
+    const [formValues, setFormValues] = useState([]);
+    // console.log("singleCourse", singleCourse);
 
-    const { handleAddCourseLessons } = useGlobalContext()
+    useEffect(() => {
+        if (courseId) {
+            getSingleCourseFunc(courseId)
+        }
+    }, []);
+
+    useEffect(() => {
+        setFormValues(initialValues)
+    }, [singleCourse]);
+
+
+
+
     const [collapsedSections, setCollapsedSections] = useState([]);
 
     const toggleSectionCollapse = (index) => {
@@ -25,11 +42,11 @@ const ManageLessons = () => {
     };
 
     const initialValues = {
-        sections: [{
-            sectionTitle: '',
-            releaseDate: '',
-            sectionNumber: '',
-            lessons: [{ lessonTitle: '', videoUrl: '', duration: '' }],
+        sections: singleCourse?.contents?.length > 0 ? singleCourse?.contents  :  [{
+            sectionTitle: singleCourse?.sectionTitle || '',
+            releaseDate: singleCourse?.releaseDate || new Date(),
+            sectionNumber: singleCourse?.sectionNumber || '',
+            lessons: singleCourse?.lessons || [{ lessonTitle: '', videoUrl: '', documentUrl: '', duration: '' }],
         }],
     };
 
@@ -53,31 +70,41 @@ const ManageLessons = () => {
         const payload = values.sections.map(section => ({
             sectionTitle: section.sectionTitle,
             releaseDate: section.releaseDate,
-            sectionNumber: section.sectionNumber,
+            // sectionId: section?._id,
             lessons: section.lessons.map(lesson => ({
                 lessonTitle: lesson.lessonTitle,
                 videoUrl: lesson.videoUrl,
+                documentUrl:"",
                 duration: parseInt(lesson.duration, 10),
             })),
         }));
 
+        // console.log("values", values)
 
         const successFunc = (res) => {
             setSubmitting(false)
             toast.success(res?.message);
             resetForm()
         }
+        const  editpayload = {
+            contents: values?.sections
+        }
 
+        if(isEdit){
+            editCourseLessons(courseId, editpayload, successFunc)
+        }else   {
 
-        handleAddCourseLessons(courseId, payload, successFunc)
+            handleAddCourseLessons(courseId, payload, successFunc)
+        }
 
     };
 
     return (
-        <CreateCourseLayout currentStep={2} noOfSteps={2} title={"Create Course/ Lessons"} className="">
+        <CreateCourseLayout currentStep={2} noOfSteps={2} title={isEdit ? "Edit Course/ Lessons" : "Create Course/ Lessons"} className="">
             <div className="py-5 ">
                 <Formik
-                    initialValues={initialValues}
+                    enableReinitialize
+                    initialValues={formValues}
                     validationSchema={validationSchema}
                     onSubmit={handleSubmit}
                 >
@@ -167,8 +194,8 @@ const ManageLessons = () => {
                             <button
                                 type="submit"
                                 className="btn bg-primary_b text-white mt-4 w-fit mx-auto px-10 "
-                                disabled={isSubmitting}>
-                                {isSubmitting ? <PreLoader /> : 'Submit'}
+                                disabled={isEditLessons || isSubmitting}>
+                                {(isEditLessons || isSubmitting) ? <PreLoader /> : 'Submit'}
 
                             </button>
                         </Form>

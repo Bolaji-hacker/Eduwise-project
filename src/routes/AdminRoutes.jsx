@@ -9,6 +9,7 @@ import AdminDashboard from "../pages/admin/AdminDashboard";
 import AllAdminCourse from "../components/admin/AdminCourses/AllAdminCourse";
 import CreateCourse from "../components/admin/AdminCourses/CreateCourse";
 import ManageLessons from "../components/admin/AdminCourses/ManageLessons";
+import Quiz from "../pages/admin/Quiz";
 
 export const adminRoutes = [
     {
@@ -17,7 +18,7 @@ export const adminRoutes = [
             {
                 path: "",
                 element: Cookies.get("authToken") ? (
-                    <Navigate to="/admin_dashboard/courses" replace />
+                    <Navigate to="/admin_dashboard/admin_my_course" replace />
                 ) : (
                     <Navigate to="/courses" replace />
                 ),
@@ -26,7 +27,7 @@ export const adminRoutes = [
             {
                 path: "admin_courses",
                 element: Cookies.get("authToken") ? (
-                    <Navigate to="/admin_dashboard/courses" replace />
+                    <Navigate to="/admin_dashboard/admin_my_course" replace />
                 ) : (
                     <AllCourse />
                 ),
@@ -51,8 +52,17 @@ export const adminRoutes = [
                             </ProtectedRoute>
                         ),
                     },
+
                     {
                         path: "manage_lessons/:courseId",
+                        element: (
+                            <ProtectedRoute>
+                                <ManageLessons />
+                            </ProtectedRoute>
+                        ),
+                    },
+                    {
+                        path: "edit_lessons/:courseId",
                         element: (
                             <ProtectedRoute>
                                 <ManageLessons />
@@ -67,14 +77,15 @@ export const adminRoutes = [
                             </ProtectedRoute>
                         ),
                     },
-                    // {
-                    //     path: "admin_my_course/:id",
-                    //     element: (
-                    //         <ProtectedRoute>
-                    //             <MyCourseContent />
-                    //         </ProtectedRoute>
-                    //     ),
-                    // },
+                    {
+                        path: "edit_courses/:courseId",
+                        element: (
+                            <ProtectedRoute>
+                                <CreateCourse />
+                            </ProtectedRoute>
+                        ),
+                    },
+
 
                     {
                         path: "admin_profile",
@@ -84,11 +95,16 @@ export const adminRoutes = [
                             </ProtectedRoute>
                         ),
                     },
+                    {
+                        path: "admin_quiz",
+                        element: (
+                            <ProtectedRoute>
+                                <Quiz />
+                            </ProtectedRoute>
+                        ),
+                    },
 
-                    // {
-                    //     path: "admin/upload",
-                    //     element: <Admin />,
-                    // },
+
                 ],
             },
         ],

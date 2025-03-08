@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 
 // Create an Axios instance
 const apiClient = axios.create({
-    baseURL: "https://edwise.onrender.com/api",
+    baseURL: "https://eduwise-backend.onrender.com/api",
     headers: {
         "Content-Type": "application/json",
     },

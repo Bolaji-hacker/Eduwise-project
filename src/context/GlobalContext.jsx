@@ -4,9 +4,14 @@ import {
     courseContent,
     createCourse,
     createLessons,
+    deleteCourse,
+    editCourse,
+    editLessons,
     enrollCourse,
     getAllCourse,
     getEnrolledCourse,
+    getSingleCourse,
+    getStudentNo,
     getSuggestJobs,
     getUserDetails,
     updateUser,
@@ -19,12 +24,25 @@ const GlobalContextProvider = ({ children }) => {
     const [userRole, setUserRole] = useState(null);
     const [enrolledCourses, setEnrolledCourses] = useState([]);
     const [courses, setCourses] = useState([]);
+    const [studentCount, setStudentCount] = useState("");
+    
     // get user details
     const getUser = async () => {
         try {
             const res = await getUserDetails();
             setUserProfile(res?.user);
             setUserRole(res?.user?.role);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    
+    // get user details
+    const getStudentNoFunc = async () => {
+        try {
+            const res = await getStudentNo();
+            setStudentCount(res?.count);
+            
         } catch (error) {
             console.error(error);
         }
@@ -54,6 +72,22 @@ const GlobalContextProvider = ({ children }) => {
             console.error(error);
         } finally {
             setFetchingEnrolledCourse(false);
+        }
+    };
+
+    // get single Courses
+    const [fetchingSingleCourse, setFetchingSingleCourse] = useState(false);
+    const [singleCourse, setSingleCourse] = useState([]);
+    const getSingleCourseFunc = async (courseId) => {
+        setFetchingSingleCourse(true);
+        try {
+            const res = await getSingleCourse(courseId);
+            // console.log(res);
+            setSingleCourse(res?.course);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setFetchingSingleCourse(false);
         }
     };
 
@@ -125,7 +159,26 @@ const GlobalContextProvider = ({ children }) => {
         }
     };
 
-    // CRETE COURSE
+    // delete course 
+    const [isDeletingcourse, setIsDeletingcourse] = useState(false);
+
+    const deleteCourseFunc = async (courseId) => {
+        setIsDeletingcourse(true);
+        try {
+            const res = await deleteCourse(courseId);
+
+            console.log(res);
+            toast.success(res?.message);
+            getCourses()
+        } catch (error) {
+            toast.error(error?.response?.data?.message);
+            // console.error(error);
+        } finally {
+            setIsDeletingcourse(false);
+        }
+    };
+
+    // CREATE COURSE
     const handleCreateCourse = async (credentials, successFunc) => {
         try {
             const response = await createCourse(credentials);
@@ -136,9 +189,28 @@ const GlobalContextProvider = ({ children }) => {
             throw error;
         }
     };
+    
+    // edit COURSE
+    const handleEditCourse = async (courseId,credentials, successFunc) => {
+        try {
+            const response = await editCourse(courseId, credentials);
+            // console.log(response);
+            successFunc?.(response)
+        } catch (error) {
+            console.error("Error creating course:", error);
+            throw error;
+        }
+    };
+
+
+
+
     // CRETE COURSE Lessons
     const handleAddCourseLessons = async (courseId, credentials, successFunc) => {
-        const payload = { ...credentials?.[0] }
+        const payload =  credentials 
+        
+       console.log("payload", payload)
+
         try {
             const response = await createLessons(courseId, payload);
             // console.log(response);
@@ -148,6 +220,30 @@ const GlobalContextProvider = ({ children }) => {
             throw error;
         }
     };
+    
+    
+    
+    // handle edit course lessons
+    const [isEditLessons, setIsEditLessons] = useState(false);
+    
+    const editCourseLessons = async (courseId, credentials, successFunc) => {
+        const payload =  credentials 
+        setIsEditLessons(true)
+    //    console.log("payload", payload)
+
+        try {
+            const response = await editLessons(courseId, payload);
+            // console.log(response);
+            successFunc?.(response)
+        } catch (error) {
+            console.error("Error creating course:", error);
+            throw error;
+        } finally {
+             setIsEditLessons(false)
+        }
+    };
+
+
 
 
     // LogOut
@@ -168,9 +264,17 @@ const GlobalContextProvider = ({ children }) => {
         getCourses,
         courses,
         fetchingAllCourse,
+        // get single course
+        fetchingSingleCourse,
+        singleCourse,
+        getSingleCourseFunc,
+        // delete course
+        deleteCourseFunc,
+        isDeletingcourse,
         // enroll Courses
         fetchingEnrolledCourse,
         enrollCoursesFunc,
+
         // get jobs
         getJobs,
         jobs,
@@ -184,8 +288,16 @@ const GlobalContextProvider = ({ children }) => {
         currentCourseContent,
         currentCourse,
         handleCreateCourse,
+        // edit course 
+        handleEditCourse,
+        // edit course conent 
+        editCourseLessons,
+        isEditLessons,
         // Lessons 
         handleAddCourseLessons,
+        // Student Count
+        studentCount,
+        getStudentNoFunc,
         // Logout
         Logout,
 

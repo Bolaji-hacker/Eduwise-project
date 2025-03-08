@@ -5,7 +5,8 @@ import { useGlobalContext } from "../../context/ContextExport";
 import RecentCreatedCourses from "../../components/admin/adminDashbord/RecentCreatedCourses";
 
 const AdminDashboard = () => {
-    const { enrolledCourses, getCourses, courses, fetchingAllCourse } =
+    const { enrolledCourses, getCourses, courses, fetchingAllCourse, studentCount,
+        getStudentNoFunc } =
         useGlobalContext();
 
 
@@ -14,7 +15,7 @@ const AdminDashboard = () => {
             {
                 id: 1,
                 title: "Total Students",
-                value: enrolledCourses?.length,
+                value: studentCount,
             },
             {
                 id: 2,
@@ -32,6 +33,7 @@ const AdminDashboard = () => {
 
     useEffect(() => {
         getCourses();
+        getStudentNoFunc()
     }, []);
 
 

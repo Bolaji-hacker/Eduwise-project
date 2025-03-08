@@ -9,7 +9,7 @@ import { registerUser } from "../../../lib/services";
 import toast from "react-hot-toast";
 import {
     Checkbox,
-    
+
 } from "../../../components/common/CustomCheckBox";
 
 const Register = () => {
@@ -44,7 +44,7 @@ const Register = () => {
             fullName: name,
             email: email,
             password: password,
-            interests: interests,
+            // interests: interests,
         };
         try {
             const response = await registerUser(payload);
@@ -102,7 +102,7 @@ const Register = () => {
                         />
                     </div>
                 </div>
-                <div className="mt-4">
+                {/* <div className="mt-4">
                     <label
                         htmlFor={name}
                         className="block text-sm/6 font-medium text-gray-900 mb-2"
@@ -118,7 +118,7 @@ const Register = () => {
                             onChange={(e) => handleInterestChange(e, interest)}
                         />
                     ))}
-                </div>
+                </div> */}
                 <div className="mt-5">
                     <button type="submit" className="btn btn_primary ">
                         Create An Account

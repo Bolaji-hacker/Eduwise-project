@@ -51,13 +51,18 @@ export default function Sidebar() {
             id: 4,
             label: "Profile",
             url: "admin_profile",
-            path: "/dashboard/admin_profile",
+            path: "/admin_dashboard/admin_profile",
         },
         {
             id: 2,
             label: "Courses",
             url: "admin_my_course",
-            path: "/dashboard/admin_my_course",
+            path: "/admin_dashboard/admin_my_course",
+        }, {
+            id: 5,
+            label: "Quiz",
+            url: "admin_quiz",
+            path: "/admin_dashboard/admin_quiz",
         },
     ];
 
@@ -129,7 +134,7 @@ export default function Sidebar() {
             <MobileNav
                 isOpen={isOpen}
                 toggleSidebar={toggleSidebar}
-                sideBarData={sideBarData}
+                sideBarData={userRole === "admin" ? adminSideBarData : sideBarData}
                 pathname={pathname}
             />
 
