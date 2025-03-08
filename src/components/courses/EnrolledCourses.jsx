@@ -22,12 +22,12 @@ const EnrolledCourses = () => {
             value: 1,
             navDes: enrolledCourses?.length,
         },
-        {
-            id: 2,
-            title: "Active Courses",
-            value: 2,
-            navDes: activeCourses?.length,
-        },
+        // {
+        //     id: 2,
+        //     title: "Active Courses",
+        //     value: 2,
+        //     navDes: activeCourses?.length,
+        // },
         {
             id: 3,
             title: "Completed Courses",
@@ -57,8 +57,8 @@ const EnrolledCourses = () => {
                     return (
                         <Button
                             className={` px-[0.9375rem] py-3 rounded-[0.3125rem] ${courseNav === value
-                                    ? "bg-[#ff4667] text-white"
-                                    : "text-[#e9ecef] bg-[#685f78]"
+                                ? "bg-[#ff4667] text-white"
+                                : "text-[#e9ecef] bg-[#685f78]"
                                 }`}
                             key={id}
                             onClick={() => setCourseNav(value)}
