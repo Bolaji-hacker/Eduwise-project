@@ -14,7 +14,7 @@ const ManageLessons = () => {
     const { pathname } = useLocation();
     const { courseId } = useParams()
     const isEdit = pathname.includes("edit_lessons");
-    const { handleAddCourseLessons, getSingleCourseFunc, singleCourse , editCourseLessons, isEditLessons} = useGlobalContext()
+    const { handleAddCourseLessons, getSingleCourseFunc, singleCourse, editCourseLessons, isEditLessons } = useGlobalContext()
     const [formValues, setFormValues] = useState([]);
     // console.log("singleCourse", singleCourse);
 
@@ -42,7 +42,7 @@ const ManageLessons = () => {
     };
 
     const initialValues = {
-        sections: singleCourse?.contents?.length > 0 ? singleCourse?.contents  :  [{
+        sections: singleCourse?.contents?.length > 0 ? singleCourse?.contents : [{
             sectionTitle: singleCourse?.sectionTitle || '',
             releaseDate: singleCourse?.releaseDate || new Date(),
             sectionNumber: singleCourse?.sectionNumber || '',
@@ -74,7 +74,7 @@ const ManageLessons = () => {
             lessons: section.lessons.map(lesson => ({
                 lessonTitle: lesson.lessonTitle,
                 videoUrl: lesson.videoUrl,
-                documentUrl:"",
+                documentUrl: "",
                 duration: parseInt(lesson.duration, 10),
             })),
         }));
@@ -86,13 +86,13 @@ const ManageLessons = () => {
             toast.success(res?.message);
             resetForm()
         }
-        const  editpayload = {
+        const editpayload = {
             contents: values?.sections
         }
 
-        if(isEdit){
+        if (isEdit) {
             editCourseLessons(courseId, editpayload, successFunc)
-        }else   {
+        } else {
 
             handleAddCourseLessons(courseId, payload, successFunc)
         }
@@ -195,7 +195,9 @@ const ManageLessons = () => {
                                 type="submit"
                                 className="btn bg-primary_b text-white mt-4 w-fit mx-auto px-10 "
                                 disabled={isEditLessons || isSubmitting}>
-                                {(isEditLessons || isSubmitting) ? <PreLoader /> : 'Submit'}
+                                {/* {(isEditLessons || isSubmitting) ? <PreLoader /> :  */}
+                                Submit
+                                {/* // } */}
 
                             </button>
                         </Form>
