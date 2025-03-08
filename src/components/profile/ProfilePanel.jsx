@@ -25,7 +25,7 @@ const ProfilePanel = () => {
     const initialValues = {
         fullName: userProfile?.fullName || "",
         email: userProfile?.email || "",
-        interests: userProfile?.interests || [],
+        // interests: userProfile?.interests || [],
         userImage: null,
     };
 
@@ -124,11 +124,10 @@ const ProfilePanel = () => {
                                             </div>
 
                                             <button
-                                                className={`border rounded px-3 py-2 ${
-                                                    editForm
+                                                className={`border rounded px-3 py-2 ${editForm
                                                         ? "border-[#002058] text-[#002058] "
                                                         : "border-red-500 text-red-500"
-                                                }`}
+                                                    }`}
                                                 onClick={() =>
                                                     handleCancelInterest(
                                                         setFieldValue
@@ -169,7 +168,7 @@ const ProfilePanel = () => {
                                                         );
                                                     })}
                                                 </div>
-                                                <div className="fex mt-5">
+                                                {/* <div className="fex mt-5">
                                                     <p
                                                         // htmlFor={name}
                                                         className="block text-sm/6 font-medium text-gray-900 mb-2"
@@ -215,7 +214,7 @@ const ProfilePanel = () => {
                                                             }
                                                         )}
                                                     </div>
-                                                </div>
+                                                </div> */}
                                             </div>
                                             {!editForm && (
                                                 <button

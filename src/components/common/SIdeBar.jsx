@@ -77,7 +77,7 @@ export default function Sidebar() {
                 <div className="px-4 py-3 h-[4rem] text-xl font-bold border-b border-[#e9ecef] bg-white opacity0 ">
                     <a href="/" className="flex gap-1 items-center">
                         <img src="/logo-small.png" alt="logo" />
-                        <p className="text-[20px]  font-semibold">AIMatch</p>
+                        <p className="text-[20px]  font-semibold">EduWise</p>
                     </a>
                 </div>
 

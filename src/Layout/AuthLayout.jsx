@@ -15,7 +15,7 @@ const AuthLayout = () => {
                         className="w-2/3 mx-auto mb-6"
                     />
                     <h1 className="text-2xl font-bold text-gray-800">
-                        Welcome to AIMATCH Courses.
+                        Welcome to EduWise Courses.
                     </h1>
                     <p className="text-[#22100d] text-sm  mt-4 max-w-[35.625rem]">
                         Where we empower educators and institutions to create
@@ -32,7 +32,7 @@ const AuthLayout = () => {
                         <a href="/" className="flex gap-1 items-center">
                             <img src="/logo-small.png" alt="logo" />
                             <p className="text-[20px]  font-semibold">
-                                AIMatch
+                                EduWise
                             </p>
                         </a>
                         <Link
