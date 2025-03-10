@@ -220,3 +220,14 @@ export const editLessons = async (courseId, credentials) => {
     }
 };
 
+
+// create Quiz 
+export const createQuiz = async (courseId, credentials) => {
+    try {
+        const response = await apiClient.patch(`/courses/${courseId}/quizzes`, credentials);
+        return response.data;
+    } catch (error) {
+        console.error("Error in Create Quizz :", error);
+        throw error;
+    }
+};

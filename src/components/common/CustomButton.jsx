@@ -1,18 +1,17 @@
+import { cn } from "../../lib/utilities";
+
 const CustomButton = ({
     children,
     loading = false,
     disabled = false,
+    style,
     ...props
 }) => {
     return (
         <button
             {...props}
             disabled={disabled || loading}
-            className={`inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium ${
-                loading
-                    ? "bg-gray-300 cursor-not-allowed"
-                    : "bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500"
-            }`}
+            className={cn(` disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-primary_b_dark`, style)}
         >
             {loading ? (
                 <svg

@@ -1,7 +1,41 @@
-import React from "react";
+import CustomTable from "../../components/common/CustomTable";
+import { useEffect } from "react";
+import { useGlobalContext } from "../../context/ContextExport";
+import { QuizColumn } from "../../components/admin/AdminQuiz/QuizColumn";
 
 const Quiz = () => {
-    return <div>Quiz</div>;
+    const { getCourses, courses, fetchingAllCourse, } =
+        useGlobalContext();
+
+    useEffect(() => {
+        getCourses();
+    }, []);
+
+
+
+    return (
+        <div className="">
+            <div className="py-5 px-[1.1875rem] border-[#e9ecef] border-b flex items-center justify-between">
+                <h3 className=" text-[#002058] text-lg font-semibold">
+                    Quiz
+                </h3>
+            </div>
+
+            {/* children */}
+            <div className="" >
+
+
+                <CustomTable
+                    isPaginated={false}
+                    data={courses}
+                    columns={QuizColumn}
+                    showAnimation={fetchingAllCourse}
+                />
+
+            </div>
+
+        </div>
+    )
 };
 
 export default Quiz;

@@ -10,6 +10,7 @@ import AllAdminCourse from "../components/admin/AdminCourses/AllAdminCourse";
 import CreateCourse from "../components/admin/AdminCourses/CreateCourse";
 import ManageLessons from "../components/admin/AdminCourses/ManageLessons";
 import Quiz from "../pages/admin/Quiz";
+import ManageQuiz from "../components/admin/AdminQuiz/ManageQuiz";
 
 export const adminRoutes = [
     {
@@ -102,7 +103,18 @@ export const adminRoutes = [
                                 <Quiz />
                             </ProtectedRoute>
                         ),
+
                     },
+                    {
+                        path: "admin_quiz/create_quizz/:courseId",
+                        element: (
+                            <ProtectedRoute>
+                                <ManageQuiz />
+                            </ProtectedRoute>
+                        ),
+
+                    },
+
 
 
                 ],

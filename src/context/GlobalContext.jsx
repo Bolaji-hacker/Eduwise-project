@@ -4,6 +4,7 @@ import {
     courseContent,
     createCourse,
     createLessons,
+    createQuiz,
     deleteCourse,
     editCourse,
     editLessons,
@@ -25,7 +26,7 @@ const GlobalContextProvider = ({ children }) => {
     const [enrolledCourses, setEnrolledCourses] = useState([]);
     const [courses, setCourses] = useState([]);
     const [studentCount, setStudentCount] = useState("");
-    
+
     // get user details
     const getUser = async () => {
         try {
@@ -36,13 +37,13 @@ const GlobalContextProvider = ({ children }) => {
             console.error(error);
         }
     };
-    
+
     // get user details
     const getStudentNoFunc = async () => {
         try {
             const res = await getStudentNo();
             setStudentCount(res?.count);
-            
+
         } catch (error) {
             console.error(error);
         }
@@ -189,9 +190,9 @@ const GlobalContextProvider = ({ children }) => {
             throw error;
         }
     };
-    
+
     // edit COURSE
-    const handleEditCourse = async (courseId,credentials, successFunc) => {
+    const handleEditCourse = async (courseId, credentials, successFunc) => {
         try {
             const response = await editCourse(courseId, credentials);
             // console.log(response);
@@ -207,9 +208,9 @@ const GlobalContextProvider = ({ children }) => {
 
     // CRETE COURSE Lessons
     const handleAddCourseLessons = async (courseId, credentials, successFunc) => {
-        const payload =  credentials 
-        
-       console.log("payload", payload)
+        const payload = credentials
+
+        console.log("payload", payload)
 
         try {
             const response = await createLessons(courseId, payload);
@@ -220,16 +221,16 @@ const GlobalContextProvider = ({ children }) => {
             throw error;
         }
     };
-    
-    
-    
+
+
+
     // handle edit course lessons
     const [isEditLessons, setIsEditLessons] = useState(false);
-    
+
     const editCourseLessons = async (courseId, credentials, successFunc) => {
-        const payload =  credentials 
+        const payload = credentials
         setIsEditLessons(true)
-    //    console.log("payload", payload)
+        //    console.log("payload", payload)
 
         try {
             const response = await editLessons(courseId, payload);
@@ -239,8 +240,31 @@ const GlobalContextProvider = ({ children }) => {
             console.error("Error creating course:", error);
             throw error;
         } finally {
-             setIsEditLessons(false)
+            setIsEditLessons(false)
         }
+    };
+
+
+    // handle createQuizz 
+    // const [isEditLessons, setIsEditLessons] = useState(false);
+
+    const createQiuzFunc = async (courseId, credentials, successFunc) => {
+        const payload = {
+            questions: credentials?.quizzes
+        }
+        // setIsEditLessons(true)
+        console.log("payload", payload)
+
+        // try {
+        //     const response = await createQuiz(courseId, payload);
+        //     console.log(response);
+        //     // successFunc?.(response)
+        // } catch (error) {
+        //     console.error("Error creating course:", error);
+        //     throw error;
+        // } finally {
+        //     //  setIsEditLessons(false)
+        // }
     };
 
 
@@ -298,6 +322,8 @@ const GlobalContextProvider = ({ children }) => {
         // Student Count
         studentCount,
         getStudentNoFunc,
+        // Create Quiz
+        createQiuzFunc,
         // Logout
         Logout,
 
