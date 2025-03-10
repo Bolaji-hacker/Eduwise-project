@@ -20,9 +20,10 @@ const AllCourses = ({ enrollId }) => {
         setSearchQuery(e.target.value);
         const filteredData = courses?.filter((item) => {
             return (
-                item.title
+                item?.title
                     .toLowerCase()
-                    .includes(e.target.value.toLowerCase()) ||
+                    .includes(e.target.value.toLowerCase())
+                ||
                 item.description
                     .toLowerCase()
                     .includes(e.target.value.toLowerCase()) ||
@@ -31,8 +32,21 @@ const AllCourses = ({ enrollId }) => {
                     .includes(e.target.value.toLowerCase())
             );
         });
+
         setFilteredData(filteredData);
     };
+    console.log('====================================');
+    console.log("filteredData", filteredData);
+    console.log('====================================');
+
+    console.log('====================================');
+    console.log("searchQuery", searchQuery);
+    console.log('====================================');
+
+
+    console.log('====================================');
+    console.log("courses", courses);
+    console.log('====================================');
 
     return (
         <div className={` px-4 ${isLoggedIn ? "pt-[10px]" : "pt-[4.125rem]"} `}>
@@ -47,11 +61,10 @@ const AllCourses = ({ enrollId }) => {
                     <PreLoader />
                 ) : (
                     <div
-                        className={`mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  ${
-                            isLoggedIn ? "" : "lg:grid-cols-4"
-                        } gap-5`}
+                        className={`mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  ${isLoggedIn ? "" : "lg:grid-cols-4"
+                            } gap-5`}
                     >
-                        {!fetchingAllCourse && filteredData?.length > 1 ? (
+                        {!fetchingAllCourse && filteredData?.length > 0 ? (
                             <>
                                 {filteredData?.map((item) => {
                                     const isEnrolled = enrollId.includes(
