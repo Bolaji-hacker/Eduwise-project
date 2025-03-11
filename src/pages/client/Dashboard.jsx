@@ -19,7 +19,7 @@ const Dashboard = () => {
             {
                 id: 2,
                 title: "Active Courses",
-                value: activeCourses?.length,
+                value: enrolledCourses?.length,
             },
             {
                 id: 3,

@@ -99,9 +99,9 @@ const GlobalContextProvider = ({ children }) => {
         try {
             const res = await enrollCourse(courseId);
             toast.success(res?.message);
-            if (path === "/courses" || path === "/dashboard") {
-                getEnrolledCourses();
-            }
+            // if (path === "/courses" || path === "/dashboard") {
+            getEnrolledCourses();
+            // }
         } catch (error) {
             toast.error(error?.response?.data?.message);
             console.error(error);
