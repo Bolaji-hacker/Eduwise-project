@@ -35,18 +35,6 @@ const AllCourses = ({ enrollId }) => {
 
         setFilteredData(filteredData);
     };
-    console.log('====================================');
-    console.log("filteredData", filteredData);
-    console.log('====================================');
-
-    console.log('====================================');
-    console.log("searchQuery", searchQuery);
-    console.log('====================================');
-
-
-    console.log('====================================');
-    console.log("courses", courses);
-    console.log('====================================');
 
     return (
         <div className={` px-4 ${isLoggedIn ? "pt-[10px]" : "pt-[4.125rem]"} `}>

@@ -99,7 +99,7 @@ const GlobalContextProvider = ({ children }) => {
         try {
             const res = await enrollCourse(courseId);
             toast.success(res?.message);
-            if (path === "/courses") {
+            if (path === "/courses" || path === "/dashboard") {
                 getEnrolledCourses();
             }
         } catch (error) {
@@ -253,18 +253,18 @@ const GlobalContextProvider = ({ children }) => {
             questions: credentials?.quizzes
         }
         // setIsEditLessons(true)
-        console.log("payload", payload)
+        // console.log("payload", payload)
 
-        // try {
-        //     const response = await createQuiz(courseId, payload);
-        //     console.log(response);
-        //     // successFunc?.(response)
-        // } catch (error) {
-        //     console.error("Error creating course:", error);
-        //     throw error;
-        // } finally {
-        //     //  setIsEditLessons(false)
-        // }
+        try {
+            const response = await createQuiz(courseId, payload);
+            console.log(response);
+            // successFunc?.(response)
+        } catch (error) {
+            console.error("Error creating course:", error);
+            throw error;
+        } finally {
+            //  setIsEditLessons(false)
+        }
     };
 
 
