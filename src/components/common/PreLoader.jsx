@@ -1,10 +1,9 @@
 import { TbLoader2 } from "react-icons/tb";
+import { cn } from "../../lib/utilities";
 
-const PreLoader = () => {
+const PreLoader = ({ styles, ...props }) => {
     return (
-        <div className="mt-10 min-h-[30vh] flex items-center justify-center ">
-            <TbLoader2 className="animate-spin text-4xl text-[#002058] " />
-        </div>
+        <TbLoader2 className={cn("animate-spin text-white", styles)} {...props} />
     );
 };
 

@@ -5,18 +5,20 @@ import * as Yup from 'yup';
 import FormikCustomInput from '../../common/FormikCustomInput';
 import { IoChevronDown } from "react-icons/io5";
 import { FaPlus } from "react-icons/fa";
-import PreLoader from "../../common/PreLoader";
+
 import { useGlobalContext } from "../../../context/ContextExport";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
+import CustomButton from "../../common/CustomButton";
+
 
 const ManageLessons = () => {
+    const navigate = useNavigate()
     const { pathname } = useLocation();
     const { courseId } = useParams()
     const isEdit = pathname.includes("edit_lessons");
-    const { handleAddCourseLessons, getSingleCourseFunc, singleCourse, editCourseLessons, isEditLessons } = useGlobalContext()
+    const { handleAddCourseLessons, getSingleCourseFunc, singleCourse, editCourseLessons, isEditing } = useGlobalContext()
     const [formValues, setFormValues] = useState([]);
-    // console.log("singleCourse", singleCourse);
 
     useEffect(() => {
         if (courseId) {
@@ -45,7 +47,7 @@ const ManageLessons = () => {
         sections: singleCourse?.contents?.length > 0 ? singleCourse?.contents : [{
             sectionTitle: singleCourse?.sectionTitle || '',
             releaseDate: singleCourse?.releaseDate || new Date(),
-            sectionNumber: singleCourse?.sectionNumber || '',
+            sectionNumber: singleCourse?.sectionNumber,
             lessons: singleCourse?.lessons || [{ lessonTitle: '', videoUrl: '', documentUrl: '', duration: '' }],
         }],
     };
@@ -71,6 +73,7 @@ const ManageLessons = () => {
             sectionTitle: section.sectionTitle,
             releaseDate: section.releaseDate,
             // sectionId: section?._id,
+            sectionNumber: section.sectionNumber,
             lessons: section.lessons.map(lesson => ({
                 lessonTitle: lesson.lessonTitle,
                 videoUrl: lesson.videoUrl,
@@ -84,6 +87,7 @@ const ManageLessons = () => {
         const successFunc = (res) => {
             setSubmitting(false)
             toast.success(res?.message);
+            navigate('/admin_dashboard/admin_my_course')
             resetForm()
         }
         const editpayload = {
@@ -108,7 +112,7 @@ const ManageLessons = () => {
                     validationSchema={validationSchema}
                     onSubmit={handleSubmit}
                 >
-                    {({ values, isSubmitting, isValid }) => (
+                    {({ values, isValid }) => (
                         <Form>
                             <FieldArray name="sections">
                                 {({ push, remove }) => (
@@ -191,15 +195,14 @@ const ManageLessons = () => {
                                     </div>
                                 )}
                             </FieldArray>
-                            <button
+                            <CustomButton
                                 type="submit"
-                                className="btn bg-primary_b text-white mt-4 w-fit mx-auto px-10 "
-                                disabled={isEditLessons || isSubmitting}>
-                                {/* {(isEditLessons || isSubmitting) ? <PreLoader /> :  */}
+                                style="btn bg-primary_b text-white mt-4 w-fit mx-auto px-10 "
+                                // disabled={isEditLessons || isSubmitting}
+                                showAnimation={isEditing}
+                            >
                                 Submit
-                                {/* // } */}
-
-                            </button>
+                            </CustomButton>
                         </Form>
                     )}
                 </Formik>

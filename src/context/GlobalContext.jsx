@@ -26,6 +26,9 @@ const GlobalContextProvider = ({ children }) => {
     const [enrolledCourses, setEnrolledCourses] = useState([]);
     const [courses, setCourses] = useState([]);
     const [studentCount, setStudentCount] = useState("");
+    const [isEditLessons, setIsEditLessons] = useState(false);
+    const [isEditing, setIsEditing] = useState(false)
+
 
     // get user details
     const getUser = async () => {
@@ -94,7 +97,7 @@ const GlobalContextProvider = ({ children }) => {
 
     //  Enroll a Courses
     const [enrolling, setEnrolling] = useState(false);
-    const enrollCoursesFunc = async (courseId, path) => {
+    const enrollCoursesFunc = async (courseId) => {
         setEnrolling(true);
         try {
             const res = await enrollCourse(courseId);
@@ -181,25 +184,31 @@ const GlobalContextProvider = ({ children }) => {
 
     // CREATE COURSE
     const handleCreateCourse = async (credentials, successFunc) => {
+        setIsEditing(true)
         try {
-            const response = await createCourse(credentials);
+            const res = await createCourse(credentials);
             // console.log(response);
-            successFunc?.(response)
+            successFunc?.(res)
         } catch (error) {
-            console.error("Error creating course:", error);
+            toast.error(error?.response?.data?.message);
             throw error;
+        } finally {
+            setIsEditing(false)
         }
     };
 
     // edit COURSE
     const handleEditCourse = async (courseId, credentials, successFunc) => {
+        setIsEditing(true)
         try {
             const response = await editCourse(courseId, credentials);
             // console.log(response);
             successFunc?.(response)
         } catch (error) {
-            console.error("Error creating course:", error);
+            toast.error(error?.response?.data?.message);
             throw error;
+        } finally {
+            setIsEditing(false)
         }
     };
 
@@ -208,6 +217,7 @@ const GlobalContextProvider = ({ children }) => {
 
     // CRETE COURSE Lessons
     const handleAddCourseLessons = async (courseId, credentials, successFunc) => {
+        isEditing(true)
         const payload = credentials
 
         console.log("payload", payload)
@@ -217,19 +227,21 @@ const GlobalContextProvider = ({ children }) => {
             // console.log(response);
             successFunc?.(response)
         } catch (error) {
-            console.error("Error creating course:", error);
+            toast.error(error?.response?.data?.message);
             throw error;
+        } finally {
+            isEditing(false)
         }
     };
 
 
 
     // handle edit course lessons
-    const [isEditLessons, setIsEditLessons] = useState(false);
+
 
     const editCourseLessons = async (courseId, credentials, successFunc) => {
         const payload = credentials
-        setIsEditLessons(true)
+        setIsEditing(true)
         //    console.log("payload", payload)
 
         try {
@@ -237,10 +249,10 @@ const GlobalContextProvider = ({ children }) => {
             // console.log(response);
             successFunc?.(response)
         } catch (error) {
-            console.error("Error creating course:", error);
+            toast.error(error?.response?.data?.message);
             throw error;
         } finally {
-            setIsEditLessons(false)
+            setIsEditing(false)
         }
     };
 
@@ -260,7 +272,7 @@ const GlobalContextProvider = ({ children }) => {
             console.log(response);
             // successFunc?.(response)
         } catch (error) {
-            console.error("Error creating course:", error);
+            toast.error(error?.response?.data?.message);
             throw error;
         } finally {
             //  setIsEditLessons(false)
@@ -313,6 +325,7 @@ const GlobalContextProvider = ({ children }) => {
         currentCourse,
         handleCreateCourse,
         // edit course 
+        isEditing,
         handleEditCourse,
         // edit course conent 
         editCourseLessons,

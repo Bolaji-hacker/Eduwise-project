@@ -1,8 +1,9 @@
 import { cn } from "../../lib/utilities";
+import PreLoader from "./PreLoader";
 
 const CustomButton = ({
     children,
-    loading = false,
+    showAnimation = false,
     disabled = false,
     style,
     ...props
@@ -10,32 +11,10 @@ const CustomButton = ({
     return (
         <button
             {...props}
-            disabled={disabled || loading}
-            className={cn(` disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-primary_b_dark`, style)}
+            disabled={disabled || showAnimation}
+            className={cn(`btn  flex items-center gap-3 `, style)}
         >
-            {loading ? (
-                <svg
-                    className="animate-spin h-5 w-5 text-white"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                >
-                    <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        fill="currentColor"
-                    />
-                    <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 4a16 16 0 0116 16"
-                    />
-                </svg>
-            ) : (
-                children
-            )}
+            {showAnimation ? <PreLoader styles={"text-lg"} /> : ""} <span>{children}</span>
         </button>
     );
 };

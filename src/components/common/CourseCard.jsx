@@ -2,6 +2,7 @@ import { FaCalendarWeek, FaUser } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext, useGlobalContext } from "../../context/ContextExport";
 import { useState } from "react";
+import CustomButton from "./CustomButton";
 
 export function CourseCard({ item, path, enrolFunc, isEnrolled }) {
     const navigate = useNavigate();
@@ -71,16 +72,17 @@ export function CourseCard({ item, path, enrolFunc, isEnrolled }) {
                                     </button>
                                 </Link>
 
-                                <button
-                                    className="py-2 text-sm text-white  px-3 bg-red-700 hover:bg-red-900  w-fit flex-shrink-0 disabled:cursor-not-allowed disabled:opacity-50 "
+                                <CustomButton
+                                    style="py-2 text-sm text-white rounded-none  px-3 bg-red-700 hover:bg-red-900  w-fit flex-shrink-0 disabled:cursor-not-allowed disabled:opacity-50 "
                                     onClick={() => {
                                         setDeleteId(item?._id)
                                         deleteCourseFunc(item?._id)
                                     }}
                                     disabled={isDeletingcourse && deleteId === item?._id}
+                                    showAnimation={isDeletingcourse && deleteId === item?._id}
                                 >
                                     Delete
-                                </button>
+                                </CustomButton>
 
                             </div>)
                             :

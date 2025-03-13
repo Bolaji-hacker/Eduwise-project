@@ -144,7 +144,7 @@ const CreateQuizForm = ({ isEdit }) => {
                         <div className="flex justify-center pb-5">
 
                             <CustomButton
-                                loading={isSubmitting}
+                                showAnimation={isSubmitting}
                                 type="submit"
                                 style="btn-primary  py-3 text-white"
                                 disabled={values.quizzes?.length < 1 || isSubmitting}
@@ -155,7 +155,7 @@ const CreateQuizForm = ({ isEdit }) => {
                         </div>
                     </Form>
                 )}
-            </Formik>
+            </Formik>s
         </div>
     );
 };
