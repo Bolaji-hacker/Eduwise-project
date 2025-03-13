@@ -7,6 +7,7 @@ import { useState } from "react";
 import CustomInput from "../../../components/common/CustomInput";
 import { loginUser } from "../../../lib/services";
 import toast from "react-hot-toast";
+import CustomButton from "../../../components/common/CustomButton";
 
 const Login = () => {
     // const navigate = useNavigate();
@@ -84,13 +85,14 @@ const Login = () => {
                 </div>
 
                 <div>
-                    <button
+                    <CustomButton
                         type="submit"
                         disabled={loading}
-                        className="btn btn_primary "
+                        style="btn btn_primary "
+                        showAnimation={loading}
                     >
                         Sign in
-                    </button>
+                    </CustomButton>
                 </div>
 
                 <div className="mt-5 text-xs text-gray-500 text-center">

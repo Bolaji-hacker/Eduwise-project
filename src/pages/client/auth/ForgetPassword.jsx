@@ -4,6 +4,7 @@ import CustomInput from "../../../components/common/CustomInput";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { forgetPassword } from "../../../lib/services";
+import CustomButton from "../../../components/common/CustomButton";
 
 // import toast from "react-hot-toast";
 
@@ -49,13 +50,14 @@ const ForgetPassword = () => {
                 </div>
 
                 <div>
-                    <button
+                    <CustomButton
                         type="submit"
                         disabled={loading}
-                        className="btn btn_primary"
+                        style="btn btn_primary"
+                        showAnimation={loading}
                     >
                         Submit
-                    </button>
+                    </CustomButton>
                 </div>
 
                 <div className="mt-5 text-xs text-gray-500 text-center">

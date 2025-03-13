@@ -7,6 +7,7 @@ import CustomInput from "../../../components/common/CustomInput";
 import { resetPassword } from "../../../lib/services";
 import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
+import CustomButton from "../../../components/common/CustomButton";
 
 const ResetPassword = () => {
     const location = useLocation();
@@ -74,13 +75,14 @@ const ResetPassword = () => {
                 </div>
 
                 <div>
-                    <button
+                    <CustomButton
                         type="submit"
                         disabled={loading}
-                        className="btn btn_primary "
+                        style="btn btn_primary "
+                        showAnimation={loading}
                     >
                         Reset Password
-                    </button>
+                    </CustomButton>
                 </div>
             </form>
         </AuthHeader>

@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 import Sidebar from "../components/common/SIdeBar";
-import ProtectedRoute from "./ProtectedRoute";
+import AdminProtectedRoute from "./AdminProtectedRoute";
 import Profile from "../pages/client/Profile";
 // import MyCourseContent from "../pages/client/MyCourseContent";
 import AllCourse from "../pages/client/AllCourse";
@@ -40,50 +40,50 @@ export const adminRoutes = [
                     {
                         path: "",
                         element: (
-                            <ProtectedRoute>
+                            <AdminProtectedRoute>
                                 <AdminDashboard />
-                            </ProtectedRoute>
+                            </AdminProtectedRoute>
                         ),
                     },
                     {
                         path: "admin_my_course",
                         element: (
-                            <ProtectedRoute>
+                            <AdminProtectedRoute>
                                 <AllAdminCourse />
-                            </ProtectedRoute>
+                            </AdminProtectedRoute>
                         ),
                     },
 
                     {
                         path: "manage_lessons/:courseId",
                         element: (
-                            <ProtectedRoute>
+                            <AdminProtectedRoute>
                                 <ManageLessons />
-                            </ProtectedRoute>
+                            </AdminProtectedRoute>
                         ),
                     },
                     {
                         path: "edit_lessons/:courseId",
                         element: (
-                            <ProtectedRoute>
+                            <AdminProtectedRoute>
                                 <ManageLessons />
-                            </ProtectedRoute>
+                            </AdminProtectedRoute>
                         ),
                     },
                     {
                         path: "create_courses",
                         element: (
-                            <ProtectedRoute>
+                            <AdminProtectedRoute>
                                 <CreateCourse />
-                            </ProtectedRoute>
+                            </AdminProtectedRoute>
                         ),
                     },
                     {
                         path: "edit_courses/:courseId",
                         element: (
-                            <ProtectedRoute>
+                            <AdminProtectedRoute>
                                 <CreateCourse />
-                            </ProtectedRoute>
+                            </AdminProtectedRoute>
                         ),
                     },
 
@@ -91,26 +91,26 @@ export const adminRoutes = [
                     {
                         path: "admin_profile",
                         element: (
-                            <ProtectedRoute>
+                            <AdminProtectedRoute>
                                 <Profile />
-                            </ProtectedRoute>
+                            </AdminProtectedRoute>
                         ),
                     },
                     {
                         path: "admin_quiz",
                         element: (
-                            <ProtectedRoute>
+                            <AdminProtectedRoute>
                                 <Quiz />
-                            </ProtectedRoute>
+                            </AdminProtectedRoute>
                         ),
 
                     },
                     {
                         path: "admin_quiz/create_quizz/:courseId",
                         element: (
-                            <ProtectedRoute>
+                            <AdminProtectedRoute>
                                 <ManageQuiz />
-                            </ProtectedRoute>
+                            </AdminProtectedRoute>
                         ),
 
                     },

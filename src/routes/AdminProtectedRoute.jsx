@@ -1,8 +1,9 @@
 import { Navigate } from "react-router-dom";
-import { useAuthContext } from "../context/ContextExport";
+import { useAuthContext, useGlobalContext } from "../context/ContextExport";
 
-const ProtectedRoute = ({ children }) => {
+const AdminProtectedRoute = ({ children }) => {
     const { isLoggedIn } = useAuthContext();
+    const { userRole } = useGlobalContext()
 
     // if (isCheckingAuth) {
     //     // You can render a more informative loading indicator
@@ -17,9 +18,14 @@ const ProtectedRoute = ({ children }) => {
         // Redirect to login page if not logged in
         return <Navigate to="/login" />;
     }
+    if (userRole === "user") {
+
+        return <Navigate to="/dashboard" />;
+
+    }
 
     // If logged in, render children
     return children;
 };
 
-export default ProtectedRoute;
+export default AdminProtectedRoute;

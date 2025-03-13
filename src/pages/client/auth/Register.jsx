@@ -7,10 +7,7 @@ import { useState } from "react";
 import CustomInput from "../../../components/common/CustomInput";
 import { registerUser } from "../../../lib/services";
 import toast from "react-hot-toast";
-import {
-    Checkbox,
-
-} from "../../../components/common/CustomCheckBox";
+import CustomButton from "../../../components/common/CustomButton";
 
 const Register = () => {
     const navigate = useNavigate();
@@ -18,27 +15,14 @@ const Register = () => {
     const [email, setEmail] = useState("");
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
-    const [interests, setInterests] = useState([]);
+    const [loading, setLoading] = useState(false)
 
-    const interestsData = [
-        "Machine Learning",
-        "Robotics",
-        "Natural Language Processing (NLP)",
-        "Cognitive Computing",
-        "AI in Gaming",
-    ];
 
-    const handleInterestChange = (e, interest) => {
-        const checked = e.target.checked;
-        if (checked) {
-            setInterests([...interests, interest]);
-        } else {
-            setInterests(interests.filter((i) => i !== interest));
-        }
-    };
+
 
     const handleSignIn = async (e) => {
         e.preventDefault();
+        setLoading(true)
 
         let payload = {
             fullName: name,
@@ -54,6 +38,8 @@ const Register = () => {
         } catch (error) {
             toast.error(error?.response?.data?.error);
             console.error(error);
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -120,9 +106,11 @@ const Register = () => {
                     ))}
                 </div> */}
                 <div className="mt-5">
-                    <button type="submit" className="btn btn_primary ">
+                    <CustomButton type="submit" style="btn btn_primary"
+                        showAnimation={loading}
+                    >
                         Create An Account
-                    </button>
+                    </CustomButton>
                 </div>
                 <div className="mt-5 text-xs text-gray-500 text-center">
                     Already have an account?{" "}
