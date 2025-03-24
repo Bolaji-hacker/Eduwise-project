@@ -26,6 +26,10 @@ body {
     .btn_primary {
         @apply bg-[#2954ce] hover:bg-indigo-500;
     }
+
+    .isCentered {
+        @apply flex items-center justify-center;
+    }
 }
 
 @media (min-width: 1540px) {

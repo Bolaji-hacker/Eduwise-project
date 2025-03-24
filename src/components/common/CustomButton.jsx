@@ -6,6 +6,7 @@ const CustomButton = ({
     showAnimation = false,
     disabled = false,
     style,
+    iconStyles,
     ...props
 }) => {
     return (
@@ -14,7 +15,10 @@ const CustomButton = ({
             disabled={disabled || showAnimation}
             className={cn(`btn  flex items-center gap-3 `, style)}
         >
-            {showAnimation ? <PreLoader styles={"text-lg"} /> : ""} <span>{children}</span>
+            {showAnimation && <PreLoader styles={"text-lg"} />}
+            <div className={cn("flex items-center", iconStyles)}>
+                {children}
+            </div>
         </button>
     );
 };

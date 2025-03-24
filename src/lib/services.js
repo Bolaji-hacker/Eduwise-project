@@ -215,7 +215,7 @@ export const editLessons = async (courseId, credentials) => {
         const response = await apiClient.patch(`/edit-content/${courseId}`, credentials);
         return response.data;
     } catch (error) {
-        console.error("Error logging in:", error);
+        console.error("Error in edit quizz:", error);
         throw error;
     }
 };
@@ -228,6 +228,50 @@ export const createQuiz = async (courseId, credentials) => {
         return response.data;
     } catch (error) {
         console.error("Error in Create Quizz :", error);
+        throw error;
+    }
+};
+
+// delete Quizz
+export const deleteQuiz = async (courseId, quizId) => {
+    try {
+        const response = await apiClient.delete(`/${courseId}/quizzes/${quizId}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error deleteing  course:", error);
+        throw error;
+    }
+};
+
+// Publish Quizz
+export const publishQuiz = async (courseId, quizId) => {
+    try {
+        const response = await apiClient.patch(`/${courseId}/quizzes/${quizId}/publish`);
+        return response.data;
+    } catch (error) {
+        console.error("Error publishing quizz :", error);
+        throw error;
+    }
+};
+
+// edit quizz by id 
+export const editQuiz = async (courseId, quizId, credentials) => {
+    try {
+        const response = await apiClient.put(`/${courseId}/quizzes/${quizId}`, credentials);
+        return response.data;
+    } catch (error) {
+        console.error("Error in edit quizz:", error);
+        throw error;
+    }
+};
+
+// submit quizzz
+export const submitQuiz = async (courseId, quizId, credentials) => {
+    try {
+        const response = await apiClient.post(`/courses/${courseId}/quizzes/${quizId}/submit`, credentials);
+        return response.data;
+    } catch (error) {
+        console.error("Error in edit quizz:", error);
         throw error;
     }
 };

@@ -60,7 +60,8 @@ const ManageLessons = () => {
                 lessons: Yup.array().of(
                     Yup.object({
                         lessonTitle: Yup.string().required('Lesson Title is required'),
-                        videoUrl: Yup.string().url('Invalid URL').required('Video URL is required'),
+                        // videoUrl: Yup.string().url('Invalid URL').required('Video URL is required'),
+                        // documentUrl: Yup.string().url('Invalid URL').required('Document URL is required'),
                         duration: Yup.number().required('Duration is required').positive('Duration must be positive'),
                     })
                 ),
@@ -125,7 +126,7 @@ const ManageLessons = () => {
                                                         {`Section ${sectionIndex + 1}${`: ${section.sectionTitle}`}`}
                                                     </span>
 
-                                                    <button>
+                                                    <button type="button" >
                                                         <IoChevronDown />
                                                     </button>
                                                 </div>
@@ -142,6 +143,7 @@ const ManageLessons = () => {
                                                                             <div key={lessonIndex} className="bg-white mt-4 p-4">
                                                                                 <FormikCustomInput label="Lesson Title" name={`sections[${sectionIndex}].lessons[${lessonIndex}].lessonTitle`} type="text" />
                                                                                 <FormikCustomInput label="Video URL" name={`sections[${sectionIndex}].lessons[${lessonIndex}].videoUrl`} type="text" />
+                                                                                <FormikCustomInput label="Document URL" name={`sections[${sectionIndex}].lessons[${lessonIndex}].documentUrl`} type="text" />
                                                                                 <FormikCustomInput label="Duration (minutes)" name={`sections[${sectionIndex}].lessons[${lessonIndex}].duration`} type="number" />
 
                                                                                 <div className="flex items-center justify-between  mt-4" >
@@ -164,8 +166,8 @@ const ManageLessons = () => {
 
                                                                         <div className="flex items-center justify-end pb-4" >
 
-                                                                            <button
-                                                                                type="button"
+                                                                            <button type="button"
+
                                                                                 onClick={() => remove(sectionIndex)}
                                                                                 className="btn_primary py-2 px-4 mt-4 text-sm bg-red-500 text-white rounded-md hover:bg-red-900"
                                                                             >

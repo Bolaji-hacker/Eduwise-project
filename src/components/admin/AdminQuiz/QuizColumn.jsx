@@ -46,8 +46,14 @@ export const QuizColumn = [
         cell: ({ row }) => (
             <div>
                 <p className="text-sm text-text_4">
-                    {" "}
-                    {row.original.isActive && "Published"}{" "}
+                    {row.original.quizzes?.length > 0 ?
+                        <>
+                            {row.original.quizzes?.[0]?.published ? "Published" : "Draft"}</>
+                        :
+                        <>
+                            Nil
+                        </>
+                    }
                 </p>
                 {/* ; `row?.original?.transaction.amount` */}
             </div>

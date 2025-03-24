@@ -1,23 +1,30 @@
-import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
+import { Formik, Form, Field, FieldArray } from "formik";
 import * as Yup from "yup";
 import FormikCustomInput from "../../common/FormikCustomInput";
 import CustomButton from "../../common/CustomButton";
 import { useNavigate, useParams } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoChevronForwardOutline } from "react-icons/io5";
 import { cn } from "../../../lib/utilities";
 import { useGlobalContext } from "../../../context/ContextExport";
+import toast from "react-hot-toast";
 
 const CreateQuizForm = ({ isEdit }) => {
-
     const navigate = useNavigate();
-    const { courseId } = useParams();
-    const { createQiuzFunc } = useGlobalContext()
+    const { createQiuzFunc, isEditing, getSingleQuizFunc, singleQuiz, handleEditQuiz } = useGlobalContext()
+    const { courseId, quizId } = useParams();
     const [openIndex, setOpenIndex] = useState(1);
 
+    useEffect(() => {
+        getSingleQuizFunc(courseId)
+    }, [])
+
     const initialValues = {
-        quizzes: [{ questionText: "", options: [{ optionText: "", isCorrect: false }] }],
+        quizzes: singleQuiz || [{ questionText: "", options: [{ optionText: "", isCorrect: false }] }],
     };
+
+    // console.log("singleQuiz", singleQuiz)
+
 
 
 
@@ -43,9 +50,16 @@ const CreateQuizForm = ({ isEdit }) => {
     });
 
 
-    const handleSubmit = async (values, { setSubmitting }) => {
-        // console.log(values)
-        createQiuzFunc(courseId, values)
+    const handleSubmit = async (values) => {
+        const successFunc = () => {
+            // navigate("/admin_dashboard/admin_quiz")
+            // toast.success("Quiz Added Succefully!")
+        }
+        if (isEdit) {
+            handleEditQuiz(courseId, quizId, values)
+        } else {
+            createQiuzFunc(courseId, values, successFunc)
+        }
     };
 
     return (
@@ -56,7 +70,7 @@ const CreateQuizForm = ({ isEdit }) => {
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}
             >
-                {({ isSubmitting, values }) => (
+                {({ values }) => (
                     <Form className="space-y-6">
                         <FieldArray name="quizzes">
                             {({ push, remove }) => (
@@ -144,18 +158,18 @@ const CreateQuizForm = ({ isEdit }) => {
                         <div className="flex justify-center pb-5">
 
                             <CustomButton
-                                showAnimation={isSubmitting}
+                                showAnimation={isEditing}
                                 type="submit"
-                                style="btn-primary  py-3 text-white"
-                                disabled={values.quizzes?.length < 1 || isSubmitting}
+                                style="btn bg-primary_b  py-3 w-fit mx-auto px-6 text-white"
+                                disabled={values.quizzes?.length < 1 || isEditing}
                             >
-                                {isEdit ? "Update Course" : "Create Course"}
+                                {isEdit ? "Update Quiz" : "Create Quiz"}
                             </CustomButton>
 
                         </div>
                     </Form>
                 )}
-            </Formik>s
+            </Formik>
         </div>
     );
 };

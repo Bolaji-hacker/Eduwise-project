@@ -8,12 +8,13 @@ import Dashboard from "../pages/client/Dashboard";
 import MyCourse from "../pages/client/MyCourse";
 import ProtectedRoute from "./ProtectedRoute";
 import Profile from "../pages/client/Profile";
-import Jobs from "../pages/client/Jobs";
+import Quiz from "../pages/client/Quiz";
 import MyCourseContent from "../pages/client/MyCourseContent";
 import AllCourse from "../pages/client/AllCourse";
 import Admin from "../pages/client/Admin";
 import ResetPassword from "../pages/client/auth/ResetPassword";
 import Cookies from "js-cookie";
+import QuizAttempt from "../pages/client/QuizAttempt";
 
 export const clientRoutes = [
     {
@@ -82,10 +83,17 @@ export const clientRoutes = [
                         ),
                     },
                     {
-                        path: "jobs",
+                        path: "quiz",
                         element: (
                             <ProtectedRoute>
-                                <Jobs />
+                                <Quiz />
+                            </ProtectedRoute>
+                        ),
+                    }, {
+                        path: "quiz/:courseId",
+                        element: (
+                            <ProtectedRoute>
+                                <QuizAttempt />
                             </ProtectedRoute>
                         ),
                     },

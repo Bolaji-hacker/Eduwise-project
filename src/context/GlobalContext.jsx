@@ -6,8 +6,10 @@ import {
     createLessons,
     createQuiz,
     deleteCourse,
+    deleteQuiz,
     editCourse,
     editLessons,
+    editQuiz,
     enrollCourse,
     getAllCourse,
     getEnrolledCourse,
@@ -15,6 +17,8 @@ import {
     getStudentNo,
     getSuggestJobs,
     getUserDetails,
+    publishQuiz,
+    submitQuiz,
     updateUser,
 } from "../lib/services";
 import toast from "react-hot-toast";
@@ -113,21 +117,21 @@ const GlobalContextProvider = ({ children }) => {
         }
     };
 
-    //  Get jobs
-    const [jobs, setJobs] = useState([]);
-    const [fetchingJobs, setFetchingJobs] = useState(false);
-    const getJobs = async () => {
-        setFetchingJobs(true);
-        try {
-            const res = await getSuggestJobs();
-            setJobs(res?.jobs);
-        } catch (error) {
-            toast.error(error?.response?.data?.message);
-            console.error(error);
-        } finally {
-            setFetchingJobs(false);
-        }
-    };
+    // //  Get jobs
+    // const [jobs, setJobs] = useState([]);
+    // const [fetchingJobs, setFetchingJobs] = useState(false);
+    // const getJobs = async () => {
+    //     setFetchingJobs(true);
+    //     try {
+    //         const res = await getSuggestJobs();
+    //         setJobs(res?.jobs);
+    //     } catch (error) {
+    //         toast.error(error?.response?.data?.message);
+    //         console.error(error);
+    //     } finally {
+    //         setFetchingJobs(false);
+    //     }
+    // };
     // update user
     const [loadingEditProfile, setLoadingEditProfile] = useState(false);
     const updateUserProfile = async (userData, successFunc = () => { }) => {
@@ -237,8 +241,6 @@ const GlobalContextProvider = ({ children }) => {
 
 
     // handle edit course lessons
-
-
     const editCourseLessons = async (courseId, credentials, successFunc) => {
         const payload = credentials
         setIsEditing(true)
@@ -258,28 +260,133 @@ const GlobalContextProvider = ({ children }) => {
 
 
     // handle createQuizz 
-    // const [isEditLessons, setIsEditLessons] = useState(false);
-
     const createQiuzFunc = async (courseId, credentials, successFunc) => {
         const payload = {
             questions: credentials?.quizzes
         }
-        // setIsEditLessons(true)
+        setIsEditing(true)
         // console.log("payload", payload)
 
         try {
             const response = await createQuiz(courseId, payload);
             console.log(response);
-            // successFunc?.(response)
+            successFunc?.(response)
         } catch (error) {
             toast.error(error?.response?.data?.message);
             throw error;
         } finally {
-            //  setIsEditLessons(false)
+            setIsEditing(false)
+        }
+    };
+
+    // HANDLE GET QUIZZ FOR STUDENTS.
+    const [clientQuiz, setClientQuiz] = useState([])
+    const [fetchingAllQuiz, setFetchingAllQuiz] = useState(false)
+    const getQuiz = async () => {
+        setFetchingAllQuiz(true);
+        try {
+            const res = await getEnrolledCourse();
+            // setEnrolledCourses(res?.enrolledCourses);
+            // console.log("quizz res", res)
+            const allCorses = res?.enrolledCourses
+            const coursesWithQuiz = allCorses?.filter((item) => item?.quizzes?.[0]?.published)
+            setClientQuiz(coursesWithQuiz)
+
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setFetchingAllQuiz(false);
+        }
+
+    }
+
+    // handle get singleQUiz
+    const [singleQuiz, setSingleQuiz] = useState([])
+    const [fetchingSingleQuiz, setFetchingSingleQuiz] = useState(false)
+    const getSingleQuizFunc = async (courseId) => {
+        setFetchingSingleQuiz(true);
+        try {
+            const res = await getSingleCourse(courseId);
+            setSingleQuiz(res?.course?.quizzes?.[0]?.questions);
+            setSingleCourse(res?.course);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setFetchingSingleQuiz(false);
+        }
+
+    }
+
+    // Handle delete quizz 
+    const [isDeletingQuiz, setIsDeletingQuiz] = useState(false);
+
+    const deleteQuizFunc = async (courseId, quizId) => {
+        setIsDeletingQuiz(true);
+        try {
+            const res = await deleteQuiz(courseId, quizId);
+
+            console.log(res);
+            toast.success(res?.message);
+            getCourses()
+        } catch (error) {
+            toast.error(error?.response?.data?.message);
+            // console.error(error);
+        } finally {
+            setIsDeletingQuiz(false);
+        }
+    };
+
+    // Publishing quizz
+    const [isPublishingQuiz, setIsPublishingQuiz] = useState(false);
+
+    const publishQuizFunc = async (courseId, quizId) => {
+        setIsPublishingQuiz(true);
+        try {
+            const res = await publishQuiz(courseId, quizId);
+            toast.success(res?.message);
+            getCourses()
+        } catch (error) {
+            toast.error(error?.response?.data?.message);
+            // console.error(error);
+        } finally {
+            setIsPublishingQuiz(false);
+        }
+    };
+
+    // handleEditQuiz editQuiz
+    const handleEditQuiz = async (courseId, quizId, credentials, successFunc) => {
+        const payload = { questions: credentials?.quizzes }
+        setIsEditing(true)
+        //    console.log("payload", payload)
+        try {
+            const response = await editQuiz(courseId, quizId, payload);
+            toast.success(response?.message);
+            successFunc?.(response)
+        } catch (error) {
+            toast.error(error?.response?.data?.message);
+            throw error;
+        } finally {
+            setIsEditing(false)
         }
     };
 
 
+    // handleSubmitQuiz 
+    const handleSubmitQuiz = async (courseId, quizId, credentials, successFunc) => {
+        const payload = { answers: credentials }
+        // setIsEditing(true)
+        // console.log("payload", payload)
+        try {
+            const response = await submitQuiz(courseId, quizId, payload);
+            toast.success(response?.message);
+            successFunc?.(response)
+        } catch (error) {
+            toast.error(error?.response?.data?.message);
+            throw error;
+        } finally {
+            setIsEditing(false)
+        }
+    };
 
 
     // LogOut
@@ -311,10 +418,10 @@ const GlobalContextProvider = ({ children }) => {
         fetchingEnrolledCourse,
         enrollCoursesFunc,
 
-        // get jobs
-        getJobs,
-        jobs,
-        fetchingJobs,
+        // // get jobs
+        // getJobs,
+        // jobs,
+        // fetchingJobs,
         // upadte user profie data
         updateUserProfile,
         loadingEditProfile,
@@ -335,8 +442,21 @@ const GlobalContextProvider = ({ children }) => {
         // Student Count
         studentCount,
         getStudentNoFunc,
-        // Create Quiz
+        //Quiz
         createQiuzFunc,
+        getQuiz,
+        clientQuiz,
+        fetchingAllQuiz,
+        isDeletingQuiz,
+        deleteQuizFunc,
+        isPublishingQuiz,
+        publishQuizFunc,
+        getSingleQuizFunc,
+        fetchingSingleQuiz,
+        singleQuiz,
+        handleEditQuiz,
+        // submit quizz 
+        handleSubmitQuiz,
         // Logout
         Logout,
 

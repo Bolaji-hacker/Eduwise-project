@@ -33,11 +33,10 @@ export default function Sidebar() {
             path: "/dashboard/my_course",
         },
         // {
-        //     id: 6,
-        //     label: "Careers",
-        //     // url: "jobs",
-        //     url: "jobs",
-        //     path: "/dashboard/jobs",
+        //     id: 3,
+        //     label: "Quiz",
+        //     url: "quiz",
+        //     path: "/dashboard/quiz",
         // },
     ];
     const adminSideBarData = [

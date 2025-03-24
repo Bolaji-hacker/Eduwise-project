@@ -114,6 +114,15 @@ export const adminRoutes = [
                         ),
 
                     },
+                    {
+                        path: "admin_quiz/edit_quiz/:courseId/:quizId",
+                        element: (
+                            <AdminProtectedRoute>
+                                <ManageQuiz />
+                            </AdminProtectedRoute>
+                        ),
+
+                    },
 
 
 

@@ -21,7 +21,7 @@ const CustomTable = ({
 }) => {
     const [pageIndex, setPageIndex] = useState(0);
     const [pageSize, setPageSize] = useState(10);
-    console.log(setPageSize);
+    // console.log(setPageSize);
     const paginatedData = useMemo(() => {
         const start = pageIndex * pageSize;
         const end = start + pageSize;
@@ -77,7 +77,7 @@ const CustomTable = ({
                                 variant="dark"
                                 dimension="large"
                             /> */}
-                                    <PreLoader />
+                                    <PreLoader styles={"text-primary_b text-xl"} />
                                 </td>
                             </tr>
                         </tbody>
