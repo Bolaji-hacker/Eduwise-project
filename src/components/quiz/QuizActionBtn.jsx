@@ -3,7 +3,8 @@ import CustomButton from "../common/CustomButton"
 
 const QuizActionBtn = ({ data }) => {
     const navigate = useNavigate()
-    const noOfAttempt = data?.[0]?.attempts;
+    const noOfAttempt = data?.quizzes?.[0]?.attempts;
+
     const courseId = data?._id
 
     const handleAttepmt = (id) => {
@@ -18,7 +19,7 @@ const QuizActionBtn = ({ data }) => {
                     // disabled={isPublished}
                     onClick={() => handleAttepmt(courseId)}
                 >
-                    {noOfAttempt > 0 ? "Retake " : "Attempt"}
+                    {noOfAttempt > 0 ? "Retake" : "Attempt"}
                 </CustomButton>
 
 

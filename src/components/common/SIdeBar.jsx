@@ -32,12 +32,12 @@ export default function Sidebar() {
             url: "my_course",
             path: "/dashboard/my_course",
         },
-        // {
-        //     id: 3,
-        //     label: "Quiz",
-        //     url: "quiz",
-        //     path: "/dashboard/quiz",
-        // },
+        {
+            id: 3,
+            label: "Quiz",
+            url: "quiz",
+            path: "/dashboard/quiz",
+        },
     ];
     const adminSideBarData = [
         {
@@ -62,8 +62,38 @@ export default function Sidebar() {
             label: "Quiz",
             url: "admin_quiz",
             path: "/admin_dashboard/admin_quiz",
+        }, {
+            id: 6,
+            label: "Lecturers",
+            url: "manage_admin",
+            path: "/admin_dashboard/manage_admin",
         },
     ];
+    //   const superSideBarData = [
+    //     {
+    //         id: 1,
+    //         label: "Dashboard",
+    //         url: "/admin_dashboard",
+    //         path: "/admin_dashboard",
+    //     },
+    //     {
+    //         id: 4,
+    //         label: "Profile",
+    //         url: "admin_profile",
+    //         path: "/admin_dashboard/admin_profile",
+    //     },
+    //     {
+    //         id: 2,
+    //         label: "Courses",
+    //         url: "admin_my_course",
+    //         path: "/admin_dashboard/admin_my_course",
+    //     }, {
+    //         id: 5,
+    //         label: "Quiz",
+    //         url: "admin_quiz",
+    //         path: "/admin_dashboard/admin_quiz",
+    //     },
+    // ];
 
     useEffect(() => {
         getUser();
@@ -100,13 +130,14 @@ export default function Sidebar() {
                         </p>
                         <p className="text-sm mt-0">
                             {userProfile?.role === "user" && "Students"}
-                            {userProfile?.role === "admin" && "Admin"}
+                            {userProfile?.role === "lecturer" && "Lecturer"}
                         </p>
                     </div>
                 </div>
 
                 <ul className="mt-4 flex flex-col ">
-                    {(userRole === "admin" ? adminSideBarData : sideBarData)?.map(({ id, url, label, path }) => {
+                    {/* {(userRole === "lecturer" ? adminSideBarData : sideBarData)?.map(({ id, url, label, path }) => { */}
+                    {(userRole === "lecturer" ? adminSideBarData : sideBarData)?.map(({ id, url, label, path }) => {
                         return (
                             <Link
                                 key={id}
@@ -133,7 +164,7 @@ export default function Sidebar() {
             <MobileNav
                 isOpen={isOpen}
                 toggleSidebar={toggleSidebar}
-                sideBarData={userRole === "admin" ? adminSideBarData : sideBarData}
+                sideBarData={userRole === "lecturer" ? adminSideBarData : sideBarData}
                 pathname={pathname}
             />
 

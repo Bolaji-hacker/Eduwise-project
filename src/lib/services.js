@@ -275,3 +275,17 @@ export const submitQuiz = async (courseId, quizId, credentials) => {
         throw error;
     }
 };
+
+// create lectturer
+export const creatAdmin = async (credentials) => {
+    try {
+        const response = await apiClient.post(`/admin/create-admin`, credentials);
+        return response.data;
+    } catch (error) {
+        console.error("Error in Create Quizz :", error);
+        throw error;
+    }
+};
+
+
+

@@ -11,7 +11,6 @@ import CreateCourse from "../components/admin/AdminCourses/CreateCourse";
 import ManageLessons from "../components/admin/AdminCourses/ManageLessons";
 import Quiz from "../pages/admin/Quiz";
 import ManageQuiz from "../components/admin/AdminQuiz/ManageQuiz";
-import Lecturers from "../pages/superAdmin/Lecturers";
 
 export const adminRoutes = [
     {
@@ -125,37 +124,10 @@ export const adminRoutes = [
 
                     },
 
-                    // super admin routes
 
-                    {
-                        path: "manage_admin",
-                        element: (
-                            <AdminProtectedRoute>
-                                <Lecturers />
-                            </AdminProtectedRoute>
-                        ),
-
-                    },
 
                 ],
             },
         ],
     },
-    // {
-    //     path: "/",
-    //     element: <AuthLayout />,
-    //     children: [
-    //         { path: "register", element: <Register /> },
-    //         {
-    //             path: "login",
-    //             element: Cookies.get("authToken") ? (
-    //                 <Navigate to="/courses" replace />
-    //             ) : (
-    //                 <Login />
-    //             ),
-    //         },
-    //         { path: "forget_password", element: <ForgetPassword /> },
-    //         { path: "reset_password", element: <ResetPassword /> },
-    //     ],
-    // },
 ];

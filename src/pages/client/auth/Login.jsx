@@ -31,7 +31,7 @@ const Login = () => {
             Cookies.set("authToken", response?.token, { expires: 3 });
             // console.log("res", )
             setTimeout(() => {
-                if (response?.user?.role === "admin") {
+                if (response?.user?.role === "lecturer") {
                     window.location.href = "/admin_dashboard";
                 } else {
                     window.location.href = "/dashboard";

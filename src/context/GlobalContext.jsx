@@ -2,6 +2,7 @@ import { useState } from "react";
 import { GlobalContext } from "./ContextExport";
 import {
     courseContent,
+    creatAdmin,
     createCourse,
     createLessons,
     createQuiz,
@@ -221,7 +222,7 @@ const GlobalContextProvider = ({ children }) => {
 
     // CRETE COURSE Lessons
     const handleAddCourseLessons = async (courseId, credentials, successFunc) => {
-        isEditing(true)
+        setIsEditing(true)
         const payload = credentials
 
         console.log("payload", payload)
@@ -234,7 +235,7 @@ const GlobalContextProvider = ({ children }) => {
             toast.error(error?.response?.data?.message);
             throw error;
         } finally {
-            isEditing(false)
+            setIsEditing(false)
         }
     };
 
@@ -372,22 +373,52 @@ const GlobalContextProvider = ({ children }) => {
 
 
     // handleSubmitQuiz 
+    const [running, setRunning] = useState(false);
+    const [time, setTime] = useState(0);
+    const [isSubmittingQuiz, setIsSubmittingQuiz] = useState(false)
+    const [quizResult, setQuizResult] = useState(null)
     const handleSubmitQuiz = async (courseId, quizId, credentials, successFunc) => {
         const payload = { answers: credentials }
-        // setIsEditing(true)
+        setIsSubmittingQuiz(true)
+
         // console.log("payload", payload)
         try {
             const response = await submitQuiz(courseId, quizId, payload);
             toast.success(response?.message);
             successFunc?.(response)
+            setQuizResult(response)
+            setRunning(false)
         } catch (error) {
             toast.error(error?.response?.data?.message);
             throw error;
         } finally {
-            setIsEditing(false)
+            setIsSubmittingQuiz(false)
         }
     };
 
+    const tryAgainFunc = () => {
+        // setRunning(true)
+        setTime(0)
+        setQuizResult(null)
+        // setCurrentQuestionIndex(0)
+        // setAnswers(Array(singleQuiz?.length).fill(null));
+    }
+
+    // creatAdmin
+    const creatAdminFunc = async (courseId) => {
+        // setIsPublishingQuiz(true);
+        try {
+            const res = await creatAdmin(courseId);
+            toast.success(res?.message);
+            console.log("creatAdmin", res)
+            // getCourses()
+        } catch (error) {
+            toast.error(error?.response?.data?.message);
+            // console.error(error);
+        } finally {
+            // setIsPublishingQuiz(false);
+        }
+    };
 
     // LogOut
     const Logout = () => {
@@ -457,6 +488,16 @@ const GlobalContextProvider = ({ children }) => {
         handleEditQuiz,
         // submit quizz 
         handleSubmitQuiz,
+        isSubmittingQuiz,
+        quizResult,
+        setQuizResult,
+        running,
+        setRunning,
+        time,
+        setTime,
+        tryAgainFunc,
+        // crete admin 
+        creatAdminFunc,
         // Logout
         Logout,
 

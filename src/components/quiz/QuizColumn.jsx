@@ -128,6 +128,22 @@ export const QuizColumn = [
         },
     },
     {
+        accessorKey: "attempts",
+        header: "No. Of Attempts",
+        cell: ({ row }) => {
+            const data = row.original.quizzes
+            const noOfAttempt = data?.[0]?.attempts
+
+
+            return (
+                <div className="" >
+                    {noOfAttempt}
+
+                </div>
+            )
+        },
+    },
+    {
         accessorKey: "creator",
         header: "Action",
         cell: ({ row }) => (

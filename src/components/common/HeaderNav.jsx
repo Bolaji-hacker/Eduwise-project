@@ -27,8 +27,8 @@ const HeaderNav = ({ toggleSidebar, isOpen, path = "" }) => {
                         {/* <Link to="/dashboard/admin/upload">
                             Admin Dashboard
                         </Link> */}
-                        <Link to={userRole === "admin" ? "/admin_dashboard" : "/dashboard"}>Dashboard</Link>
-                        <Link to={userRole === "admin" ? "admin_my_course" : "/courses"}>All Courses</Link>
+                        <Link to={userRole === "lecturer" ? "/admin_dashboard" : "/dashboard"} className="hidden md:inline-block" >Dashboard</Link>
+                        <Link to={userRole === "lecturer" ? "admin_my_course" : "/courses"}>All Courses</Link>
                         {isLoggedIn ? "" : <Link to="/login">Login</Link>}
                     </div>
 
