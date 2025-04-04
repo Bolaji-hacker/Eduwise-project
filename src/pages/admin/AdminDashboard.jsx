@@ -5,8 +5,8 @@ import { useGlobalContext } from "../../context/ContextExport";
 import RecentCreatedCourses from "../../components/admin/adminDashbord/RecentCreatedCourses";
 
 const AdminDashboard = () => {
-    const { enrolledCourses, getCourses, courses, fetchingAllCourse, studentCount,
-        getStudentNoFunc } =
+    const { enrolledCourses, getCourses, courses, lecturerCourses, fetchingAllCourse, studentCount,
+        getStudentNoFunc, getLecturerCoursesFunc, isLecturer, userRole } =
         useGlobalContext();
 
 
@@ -20,21 +20,25 @@ const AdminDashboard = () => {
             {
                 id: 2,
                 title: "Total Courses",
-                value: courses?.length,
+                value: isLecturer ? lecturerCourses?.length : courses?.length,
             },
             {
                 id: 3,
                 title: "Active Courses",
-                value: courses?.length,
+                value: isLecturer ? lecturerCourses?.length : courses?.length,
             },
         ],
         [courses, enrolledCourses]
     );
 
     useEffect(() => {
+        // if (isLecturer) {
+        // } else {
+        // }
         getCourses();
         getStudentNoFunc()
-    }, []);
+        getLecturerCoursesFunc()
+    }, [userRole]);
 
 
 
@@ -43,7 +47,7 @@ const AdminDashboard = () => {
     return (
         <div className="">
             <CourseStatBox boxData={boxData} />
-            <RecentCreatedCourses courses={courses} fetchingAllCourse={fetchingAllCourse} />
+            <RecentCreatedCourses courses={isLecturer ? lecturerCourses : courses} fetchingAllCourse={fetchingAllCourse} />
         </div>
     );
 };

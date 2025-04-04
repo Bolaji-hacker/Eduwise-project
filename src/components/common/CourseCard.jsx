@@ -61,7 +61,7 @@ export function CourseCard({ item, path, enrolFunc, isEnrolled }) {
                                 </p>
                             </div>
                         </div>}
-                        {userRole === "lecturer" ?
+                        {userRole === "lecturer" || userRole === "admin" || userRole === "super_admin" ?
                             (<div className="flex items-center w-full justify-between">
                                 <Link
                                     to={`/admin_dashboard/edit_courses/${item?._id}`}

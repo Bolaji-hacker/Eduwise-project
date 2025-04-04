@@ -288,4 +288,37 @@ export const creatAdmin = async (credentials) => {
 };
 
 
+// courses content
+export const getLecturerCourses = async () => {
+    try {
+        const response = await apiClient.get(`/lecturer/courses`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching course:", error);
+        throw error;
+    }
+};
 
+
+// Get all users
+export const getAllUser = async () => {
+    try {
+        const response = await apiClient.get(`/users`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching course:", error);
+        throw error;
+    }
+};
+
+
+// Add Admin
+export const AddAdmin = async (credentials) => {
+    try {
+        const response = await apiClient.post("/create-admin", credentials);
+        return response.data;
+    } catch (error) {
+        console.error("Error logging in:", error);
+        throw error;
+    }
+};

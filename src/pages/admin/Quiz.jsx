@@ -4,11 +4,12 @@ import { useGlobalContext } from "../../context/ContextExport";
 import { QuizColumn } from "../../components/admin/AdminQuiz/QuizColumn";
 
 const Quiz = () => {
-    const { getCourses, courses, fetchingAllCourse, } =
+    const { getCourses, courses, fetchingAllCourse, getLecturerCoursesFunc, lecturerCourses, isLecturer } =
         useGlobalContext();
 
     useEffect(() => {
         getCourses();
+        getLecturerCoursesFunc()
     }, []);
 
 
@@ -27,7 +28,7 @@ const Quiz = () => {
 
                 <CustomTable
                     isPaginated={false}
-                    data={courses}
+                    data={isLecturer ? lecturerCourses : courses}
                     columns={QuizColumn}
                     showAnimation={fetchingAllCourse}
                 />

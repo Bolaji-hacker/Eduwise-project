@@ -52,11 +52,11 @@ const CreateQuizForm = ({ isEdit }) => {
 
     const handleSubmit = async (values) => {
         const successFunc = () => {
-            // navigate("/admin_dashboard/admin_quiz")
-            // toast.success("Quiz Added Succefully!")
+            navigate("/admin_dashboard/admin_quiz")
+            toast.success("Quiz Added Succefully!")
         }
         if (isEdit) {
-            handleEditQuiz(courseId, quizId, values)
+            handleEditQuiz(courseId, quizId, values, successFunc)
         } else {
             createQiuzFunc(courseId, values, successFunc)
         }

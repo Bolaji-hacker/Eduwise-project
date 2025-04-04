@@ -5,11 +5,16 @@ import { Link } from "react-router-dom";
 
 
 const AllAdminCourse = () => {
-    const { courses, getCourses } = useGlobalContext()
+    const { courses, getCourses, getLecturerCoursesFunc, lecturerCourses, isLecturer, userRole } = useGlobalContext()
 
     useEffect(() => {
+        // if (isLecturer) {
+        // }
+        // else {
+        // }
+        getLecturerCoursesFunc();
         getCourses();
-    }, []);
+    }, [userRole]);
 
     return (
         <div className="border border-[#e9ecef] bg-white rounded-[0.625rem]">
@@ -27,7 +32,7 @@ const AllAdminCourse = () => {
             </div>
             <div className="px-4 md:px-6 py-6 min-h-[60vh] grid grid-cols-1 md:grid-cols-3 gap-5">
                 {
-                    courses?.map((item, i) => {
+                    (isLecturer ? lecturerCourses : courses)?.map((item, i) => {
                         return (
                             <CourseCard
                                 key={i}

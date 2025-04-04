@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GlobalContext } from "./ContextExport";
 import {
+    AddAdmin,
     courseContent,
     creatAdmin,
     createCourse,
@@ -13,10 +14,12 @@ import {
     editQuiz,
     enrollCourse,
     getAllCourse,
+    getAllUser,
     getEnrolledCourse,
+    getLecturerCourses,
     getSingleCourse,
     getStudentNo,
-    getSuggestJobs,
+
     getUserDetails,
     publishQuiz,
     submitQuiz,
@@ -24,17 +27,17 @@ import {
 } from "../lib/services";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
-
 const GlobalContextProvider = ({ children }) => {
     const [userProfile, setUserProfile] = useState(null);
     const [userRole, setUserRole] = useState(null);
+    const [isLecturer, setIsLecturer] = useState(false)
+    const [isAdmin, setIsAdmin] = useState(false)
+    const [isSuperAdmin, setIsSuperAdmin] = useState(false)
     const [enrolledCourses, setEnrolledCourses] = useState([]);
     const [courses, setCourses] = useState([]);
     const [studentCount, setStudentCount] = useState("");
-    const [isEditLessons, setIsEditLessons] = useState(false);
+    // const [isEditLessons, setIsEditLessons] = useState(false);
     const [isEditing, setIsEditing] = useState(false)
-
-
     // get user details
     const getUser = async () => {
         try {
@@ -45,6 +48,27 @@ const GlobalContextProvider = ({ children }) => {
             console.error(error);
         }
     };
+
+    useEffect(() => {
+        const roleType = Cookies.get("userRole");
+        setIsLecturer(roleType === "lecturer")
+        setIsAdmin(roleType === "admin")
+        setIsSuperAdmin(roleType === "super_admin")
+    }, []);
+
+    useEffect(() => {
+        getUser()
+    }, [])
+
+
+    // user roles 
+    useEffect(() => {
+        setIsLecturer(userRole === "lecturer")
+        setIsAdmin(userRole === "admin")
+        setIsSuperAdmin(userRole === "super_admin")
+    }, [userRole])
+
+
 
     // get user details
     const getStudentNoFunc = async () => {
@@ -361,7 +385,7 @@ const GlobalContextProvider = ({ children }) => {
         //    console.log("payload", payload)
         try {
             const response = await editQuiz(courseId, quizId, payload);
-            toast.success(response?.message);
+            // toast.success(response?.message);
             successFunc?.(response)
         } catch (error) {
             toast.error(error?.response?.data?.message);
@@ -420,15 +444,87 @@ const GlobalContextProvider = ({ children }) => {
         }
     };
 
+
+    // getLecturerCourses
+    const [lecturerCourses, setLecturerCourses] = useState([])
+    const getLecturerCoursesFunc = async (courseId) => {
+        setFetchingAllCourse(true);
+        try {
+            const res = await getLecturerCourses(courseId);
+            //  setSingleQuiz(res?.course?.quizzes?.[0]?.questions);
+            setLecturerCourses(res?.courses);
+            console.log(res);
+            (res?.course);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setFetchingAllCourse(false);
+        }
+
+    }
+    // get all users and put them in their categories 
+    const [lecturers, setLecturers] = useState([])
+    const [admins, setAdmins] = useState([])
+    const [students, setStudents] = useState([])
+    const [fetchingUsers, setFetchingUsers] = useState(false)
+    const getUsersFunc = async () => {
+        setFetchingUsers(true)
+        try {
+            const res = await getAllUser();
+            const teachers = res?.users?.filter((item) => item?.role === "lecturer")
+            const admins = res?.users?.filter((item) => item?.role === "admin")
+            const student = res?.users?.filter((item) => item?.role === "user")
+
+            setLecturers(teachers)
+            setAdmins(admins)
+            setStudents(student)
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setFetchingUsers(false)
+        }
+    };
+
+
+    // add admin deatils 
+    const [addingAdmin, setAddingAdmin] = useState(false)
+    const AddAdminFunc = async (payload, successFunc) => {
+        setAddingAdmin(true);
+        try {
+            const res = await AddAdmin(payload);
+            toast.success(res?.message);
+            getUsersFunc()
+            successFunc?.(res)
+        } catch (error) {
+            if (error?.response?.data?.message) {
+                toast.error(error?.response?.data?.message);
+            } else {
+                toast.error(error?.response?.data?.error);
+
+                // console.error("error name", error);
+            }
+        } finally {
+            setAddingAdmin(false);
+        }
+    };
+
+
+
+
     // LogOut
     const Logout = () => {
         Cookies.remove("authToken");
+        Cookies.remove("userRole");
         window.location.href = "/login";
     };
     const passedValue = {
         // user profile
         userProfile,
         userRole,
+        setUserRole,
+        isLecturer,
+        isAdmin,
+        isSuperAdmin,
         getUser,
         //  enrolledCourses
         enrolledCourses,
@@ -467,7 +563,7 @@ const GlobalContextProvider = ({ children }) => {
         handleEditCourse,
         // edit course conent 
         editCourseLessons,
-        isEditLessons,
+        // isEditLessons,
         // Lessons 
         handleAddCourseLessons,
         // Student Count
@@ -498,6 +594,19 @@ const GlobalContextProvider = ({ children }) => {
         tryAgainFunc,
         // crete admin 
         creatAdminFunc,
+
+        // leacturer
+        getLecturerCoursesFunc,
+        lecturerCourses,
+        // get all users
+        getUsersFunc,
+        // Add admin 
+        addingAdmin,
+        AddAdminFunc,
+        lecturers,
+        admins,
+        students,
+        fetchingUsers,
         // Logout
         Logout,
 

@@ -5,7 +5,7 @@ import QuizTimer from "./QuizTimer"
 import { useEffect } from "react"
 
 const QuizResultPanel = () => {
-    const { quizResult, singleQuiz, setRunning, tryAgainFunc } = useGlobalContext()
+    const { quizResult, singleQuiz, setRunning, } = useGlobalContext()
     useEffect(() => {
         setRunning(false)
     }, [])

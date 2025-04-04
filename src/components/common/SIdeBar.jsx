@@ -39,6 +39,8 @@ export default function Sidebar() {
             path: "/dashboard/quiz",
         },
     ];
+    // const specialAccessRoles = ["lecturer", "admin", "super_admin"];
+
     const adminSideBarData = [
         {
             id: 1,
@@ -62,38 +64,14 @@ export default function Sidebar() {
             label: "Quiz",
             url: "admin_quiz",
             path: "/admin_dashboard/admin_quiz",
-        }, {
+        },
+        ...(userRole === "super_admin" ? [{
             id: 6,
             label: "Lecturers",
             url: "manage_admin",
             path: "/admin_dashboard/manage_admin",
-        },
+        }] : []),
     ];
-    //   const superSideBarData = [
-    //     {
-    //         id: 1,
-    //         label: "Dashboard",
-    //         url: "/admin_dashboard",
-    //         path: "/admin_dashboard",
-    //     },
-    //     {
-    //         id: 4,
-    //         label: "Profile",
-    //         url: "admin_profile",
-    //         path: "/admin_dashboard/admin_profile",
-    //     },
-    //     {
-    //         id: 2,
-    //         label: "Courses",
-    //         url: "admin_my_course",
-    //         path: "/admin_dashboard/admin_my_course",
-    //     }, {
-    //         id: 5,
-    //         label: "Quiz",
-    //         url: "admin_quiz",
-    //         path: "/admin_dashboard/admin_quiz",
-    //     },
-    // ];
 
     useEffect(() => {
         getUser();
@@ -131,13 +109,16 @@ export default function Sidebar() {
                         <p className="text-sm mt-0">
                             {userProfile?.role === "user" && "Students"}
                             {userProfile?.role === "lecturer" && "Lecturer"}
+                            {userProfile?.role === "admin" && "Admin"}
+                            {userProfile?.role === "super_admin" && "Super Admin"}
+
                         </p>
                     </div>
                 </div>
 
                 <ul className="mt-4 flex flex-col ">
                     {/* {(userRole === "lecturer" ? adminSideBarData : sideBarData)?.map(({ id, url, label, path }) => { */}
-                    {(userRole === "lecturer" ? adminSideBarData : sideBarData)?.map(({ id, url, label, path }) => {
+                    {(userRole === "lecturer" || userRole === "admin" || userRole === "super_admin" ? adminSideBarData : sideBarData)?.map(({ id, url, label, path }) => {
                         return (
                             <Link
                                 key={id}

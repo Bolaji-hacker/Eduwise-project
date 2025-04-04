@@ -8,10 +8,10 @@ import CustomInput from "../../../components/common/CustomInput";
 import { loginUser } from "../../../lib/services";
 import toast from "react-hot-toast";
 import CustomButton from "../../../components/common/CustomButton";
+import { specialAccessRoles } from "../../../lib/utilities";
 
 const Login = () => {
-    // const navigate = useNavigate();
-    // const { signIn } = useAuthContext();
+
     const [email, setEmail] = useState("");
     const [loading, setLoading] = useState("");
 
@@ -29,9 +29,10 @@ const Login = () => {
             const response = await loginUser(credentials);
             toast.success(response.message);
             Cookies.set("authToken", response?.token, { expires: 3 });
-            // console.log("res", )
+            Cookies.set("userRole", response?.user?.role, { expires: 3 });
+
             setTimeout(() => {
-                if (response?.user?.role === "lecturer") {
+                if (specialAccessRoles?.includes(response?.user?.role)) {
                     window.location.href = "/admin_dashboard";
                 } else {
                     window.location.href = "/dashboard";
@@ -39,11 +40,15 @@ const Login = () => {
             }, 2000);
         } catch (error) {
             toast.error(error?.response?.data?.error);
-            // console.error(error);
+
+            console.error(error);
         } finally {
             setLoading(false);
         }
     };
+
+
+
     return (
         <AuthHeader title={"Sign into Your Account "}>
             <form onSubmit={handleSignIn} className="space-y-6">

@@ -3,10 +3,10 @@ import { useGlobalContext } from "../../context/ContextExport"
 
 
 const CreateAdmin = () => {
-    const { creatAdminFunc } = useGlobalContext()
-    useEffect(() => {
-        creatAdminFunc()
-    }, [])
+    // const { creatAdminFunc } = useGlobalContext()
+    // useEffect(() => {
+    //     creatAdminFunc()
+    // }, [])
 
     return (
         <div>

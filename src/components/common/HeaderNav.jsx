@@ -4,7 +4,7 @@ import { useAuthContext, useGlobalContext } from "../../context/ContextExport";
 
 const HeaderNav = ({ toggleSidebar, isOpen, path = "" }) => {
     const { isLoggedIn } = useAuthContext();
-    const { userRole } = useGlobalContext()
+    const { isLecturer } = useGlobalContext()
     return (
         <div className="z-50 relative">
             <div
@@ -27,8 +27,8 @@ const HeaderNav = ({ toggleSidebar, isOpen, path = "" }) => {
                         {/* <Link to="/dashboard/admin/upload">
                             Admin Dashboard
                         </Link> */}
-                        <Link to={userRole === "lecturer" ? "/admin_dashboard" : "/dashboard"} className="hidden md:inline-block" >Dashboard</Link>
-                        <Link to={userRole === "lecturer" ? "admin_my_course" : "/courses"}>All Courses</Link>
+                        <Link to={isLecturer ? "/admin_dashboard" : "/dashboard"} className="hidden md:inline-block" >Dashboard</Link>
+                        <Link to={isLecturer ? "admin_my_course" : "/courses"}>All Courses</Link>
                         {isLoggedIn ? "" : <Link to="/login">Login</Link>}
                     </div>
 
