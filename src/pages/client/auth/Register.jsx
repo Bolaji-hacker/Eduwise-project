@@ -14,6 +14,7 @@ const Register = () => {
     // const { signIn } = useAuthContext();
     const [email, setEmail] = useState("");
     const [name, setName] = useState("");
+    const [role, setRole] = useState("user")
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false)
 
@@ -28,6 +29,7 @@ const Register = () => {
             fullName: name,
             email: email,
             password: password,
+            role: role
             // interests: interests,
         };
         try {
@@ -88,23 +90,21 @@ const Register = () => {
                         />
                     </div>
                 </div>
-                {/* <div className="mt-4">
-                    <label
-                        htmlFor={name}
-                        className="block text-sm/6 font-medium text-gray-900 mb-2"
-                    >
-                        Area of interest?
+                <div className="mt-3" >
+                    <label htmlFor="role" className="block text-sm/6 font-medium text-gray-900 mb-1">
+                        Role
                     </label>
-                    {interestsData?.map((interest) => (
-                        <Checkbox
-                            key={interest}
-                            id={interest}
-                            name={interest}
-                            label={interest}
-                            onChange={(e) => handleInterestChange(e, interest)}
-                        />
-                    ))}
-                </div> */}
+                    <select
+                        id="role"
+                        name="role"
+                        className={`block w-full rounded-md bg-white  text-base text-[#685f78] outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 disabled:cursor-not-allowed py-2 pl-3 pr-10  focus:border-indigo-300 focus:ring-indigo-300 h-[40px] `}
+                        defaultValue="student"
+                        onChange={(e) => setRole(e.target.value)}
+                    >
+                        <option value="user">Student</option>
+                        <option value="lecturer">Lecturer</option>
+                    </select>
+                </div>
                 <div className="mt-5">
                     <CustomButton type="submit" style="btn btn_primary"
                         showAnimation={loading}

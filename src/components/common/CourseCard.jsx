@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext, useGlobalContext } from "../../context/ContextExport";
 import { useState } from "react";
 import CustomButton from "./CustomButton";
+import { specialAccessRoles } from "../../lib/utilities";
 
 export function CourseCard({ item, path, enrolFunc, isEnrolled }) {
     const navigate = useNavigate();
@@ -39,17 +40,17 @@ export function CourseCard({ item, path, enrolFunc, isEnrolled }) {
                         {title}
                     </div>
                     {/* teacher */}
-                    <div className=" text-base">
+                    {!specialAccessRoles.includes(userRole) && <div className=" text-base">
                         <p className="pt-2 pb-[0.625rem] text-[0.9375rem] text-[#6A7A83]">
                             Teacher -{" "}
                             <span className="text-[#092ace] font-semibold">
                                 {teacher}
                             </span>{" "}
                         </p>
-                    </div>
+                    </div>}
                     {/* course info */}
                     <div className="pt-[0.9375rem] flex items-center justify-between gap-0">
-                        {userRole !== "admin" && <div className="flex  flex-col gap-2 text-[#6A7A83] w-ful">
+                        {!specialAccessRoles.includes(userRole) && <div className="flex  flex-col gap-2 text-[#6A7A83] w-ful">
                             <div className="flex items-center gap-[0.625rem]">
                                 <FaCalendarWeek />{" "}
                                 <p className="text-sm">{duration} Days</p>

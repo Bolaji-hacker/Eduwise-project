@@ -4,9 +4,10 @@ import MobileNav from "./MobileNav";
 import HeaderNav from "./HeaderNav";
 
 import { useGlobalContext } from "../../context/ContextExport";
+import Skeleton from "react-loading-skeleton";
 
 export default function Sidebar() {
-    const { userProfile, getUser, Logout, userRole } = useGlobalContext();
+    const { userProfile, getUser, Logout, userRole, gettingUserRole } = useGlobalContext();
     const [isOpen, setIsOpen] = useState(false);
     const { pathname } = useLocation();
     const toggleSidebar = () => {
@@ -67,7 +68,7 @@ export default function Sidebar() {
         },
         ...(userRole === "super_admin" ? [{
             id: 6,
-            label: "Lecturers",
+            label: "Admins",
             url: "manage_admin",
             path: "/admin_dashboard/manage_admin",
         }] : []),
@@ -116,21 +117,25 @@ export default function Sidebar() {
                     </div>
                 </div>
 
-                <ul className="mt-4 flex flex-col ">
-                    {/* {(userRole === "lecturer" ? adminSideBarData : sideBarData)?.map(({ id, url, label, path }) => { */}
-                    {(userRole === "lecturer" || userRole === "admin" || userRole === "super_admin" ? adminSideBarData : sideBarData)?.map(({ id, url, label, path }) => {
-                        return (
-                            <Link
-                                key={id}
-                                to={`${url}`}
-                                className={`p-4 hover:text-[#e74a60] ${pathname === path ? "text-[#e74a60]" : ""
-                                    } `}
-                            >
-                                {label}
-                            </Link>
-                        );
-                    })}
-                </ul>
+                {gettingUserRole ?
+                    <div>
+                        <Skeleton count={4} height={56} className="" />
+                    </div>
+                    : <ul className="mt-4 flex flex-col ">
+                        {/* {(userRole === "lecturer" ? adminSideBarData : sideBarData)?.map(({ id, url, label, path }) => { */}
+                        {(userRole === "lecturer" || userRole === "admin" || userRole === "super_admin" ? adminSideBarData : sideBarData)?.map(({ id, url, label, path }) => {
+                            return (
+                                <Link
+                                    key={id}
+                                    to={`${url}`}
+                                    className={`p-4 hover:text-[#e74a60] ${pathname === path ? "text-[#e74a60]" : ""
+                                        } `}
+                                >
+                                    {label}
+                                </Link>
+                            );
+                        })}
+                    </ul>}
                 <button
                     className={`p-4 w-full text-white bg-red-500 border border-red-500 text-left`}
                     onClick={() => {

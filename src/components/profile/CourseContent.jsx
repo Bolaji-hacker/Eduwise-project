@@ -7,7 +7,7 @@ import { EmptyCourses } from "../dashboard/EmptyCourses";
 const CourseContent = ({ setTitle }) => {
     const { id } = useParams();
     const [activeUrl, setActiveUrl] = useState(
-        "https://www.youtube.com/embed/AQzEASEDiK4?si=ig4Zwb_QiZAKSznL"
+        ""
     );
     const [activeSection, setActiveSection] = useState(null);
     // const [completeUrl, setCompleteUrl] = useState("");
@@ -37,7 +37,7 @@ const CourseContent = ({ setTitle }) => {
                         {currentCourseContent?.length > 0 ? (
                             <div className="flex flex-col xl:flex-row gap-4 relative ">
                                 {/* /preview section */}
-                                <div className=" w-full xl:max-w-[786px]  2xl:max-w-[816px] xl:fixed ">
+                                <div className=" w-full xl:max-w-[786px]  2xl:max-w-[816px]  ">
                                     <iframe
                                         width="100%"
                                         height="450"
@@ -54,11 +54,11 @@ const CourseContent = ({ setTitle }) => {
                                         Mark as watched
                                     </button> */}
                                 </div>
-                                <div className="flex w-full md:max-w-[70%]"></div>
+                                {/* <div className="flex w-full md:max-w-[70%]"></div> */}
 
                                 {/* section info  */}
-                                <div className=" w-full xl:max-w-[35%] min-h-full ">
-                                    <h3 className="text-xl font-semibold border-b px-4 py-3 bg-white">
+                                <div className=" w-full xl:max-w-[35%] min-h-full max-h-[78vh] overflow-y-auto">
+                                    <h3 className="text-xl font-semibold border-b px-4 py-3 bg-white sticky top-0">
                                         Course content
                                     </h3>
 
@@ -73,6 +73,9 @@ const CourseContent = ({ setTitle }) => {
                                                 currentCourse={currentCourse}
                                                 setIsOpen={setActiveSection}
                                                 isOpen={activeSection}
+                                                courseId={id}
+                                                section={section}
+
                                             />
                                         )
                                     )}

@@ -109,7 +109,7 @@ export const enrollCourse = async (courseId) => {
 // get enrolled courses
 export const getEnrolledCourse = async () => {
     try {
-        const response = await apiClient.get(`/get-enrolled-courses`);
+        const response = await apiClient.get(`/users/courses`);
         return response.data;
     } catch (error) {
         console.error("Error fetching course:", error);
@@ -166,7 +166,7 @@ export const updateUser = async (userData) => {
 // courses content
 export const courseContent = async (courseId) => {
     try {
-        const response = await apiClient.get(`/courses/${courseId}`);
+        const response = await apiClient.get(`/users/courses/${courseId}`);
         return response.data;
     } catch (error) {
         console.error("Error fetching course:", error);
@@ -319,6 +319,27 @@ export const AddAdmin = async (credentials) => {
         return response.data;
     } catch (error) {
         console.error("Error logging in:", error);
+        throw error;
+    }
+};
+
+// /users/:id/toggle-status
+export const manageAdmin = async (userId) => {
+    try {
+        const response = await apiClient.patch(`/users/${userId}/toggle-status`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching course:", error);
+        throw error;
+    }
+};
+// /courses/:courseId/sections/:sectionTitle/lessons/:lessonTitle/watched
+export const addToWatch = async (courseId, sectionTitle, lessonTitle) => {
+    try {
+        const response = await apiClient.patch(`/courses/${courseId}/sections/${sectionTitle}/lessons/${lessonTitle}/watched`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching course:", error);
         throw error;
     }
 };

@@ -1,10 +1,11 @@
 import { HiMenuAlt3, HiX } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { useAuthContext, useGlobalContext } from "../../context/ContextExport";
+import { specialAccessRoles } from "../../lib/utilities";
 
 const HeaderNav = ({ toggleSidebar, isOpen, path = "" }) => {
     const { isLoggedIn } = useAuthContext();
-    const { isLecturer } = useGlobalContext()
+    const { userRole } = useGlobalContext()
     return (
         <div className="z-50 relative">
             <div
@@ -27,8 +28,8 @@ const HeaderNav = ({ toggleSidebar, isOpen, path = "" }) => {
                         {/* <Link to="/dashboard/admin/upload">
                             Admin Dashboard
                         </Link> */}
-                        <Link to={isLecturer ? "/admin_dashboard" : "/dashboard"} className="hidden md:inline-block" >Dashboard</Link>
-                        <Link to={isLecturer ? "admin_my_course" : "/courses"}>All Courses</Link>
+                        <Link to={specialAccessRoles?.includes(userRole) ? "/admin_dashboard" : "/dashboard"} className="hidden md:inline-block" >Dashboard</Link>
+                        <Link to={specialAccessRoles?.includes(userRole) ? "admin_my_course" : "/courses"}>All Courses</Link>
                         {isLoggedIn ? "" : <Link to="/login">Login</Link>}
                     </div>
 

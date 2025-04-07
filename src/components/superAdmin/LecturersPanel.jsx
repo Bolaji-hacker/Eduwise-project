@@ -3,15 +3,12 @@ import CustomTable from "../common/CustomTable"
 import { lecturerColumn } from "./LecturerColumn"
 
 const LecturersPanel = () => {
-    const { lecturers, admins, students, fetchingUsers } = useGlobalContext()
-    console.log('====================================');
-    console.log(lecturers);
-    console.log('====================================');
+    const { admins, fetchingUsers } = useGlobalContext()
     return (
-        <div>
+        <div className="px-4" >
             <CustomTable
                 isPaginated={false}
-                data={lecturers}
+                data={admins}
                 columns={lecturerColumn}
                 showAnimation={fetchingUsers}
             />

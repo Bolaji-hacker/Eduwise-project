@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { GlobalContext } from "./ContextExport";
 import {
     AddAdmin,
+    addToWatch,
     courseContent,
     creatAdmin,
     createCourse,
@@ -21,6 +22,7 @@ import {
     getStudentNo,
 
     getUserDetails,
+    manageAdmin,
     publishQuiz,
     submitQuiz,
     updateUser,
@@ -39,6 +41,26 @@ const GlobalContextProvider = ({ children }) => {
     // const [isEditLessons, setIsEditLessons] = useState(false);
     const [isEditing, setIsEditing] = useState(false)
     // get user details
+    const [gettingUserRole, setGettingUserRole] = useState(false)
+
+    const getUserRole = async () => {
+        setGettingUserRole(true)
+        try {
+            const res = await getUserDetails();
+            setUserProfile(res?.user);
+            setUserRole(res?.user?.role);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setGettingUserRole(false)
+        }
+    };
+    useEffect(() => {
+
+        getUserRole()
+    }, [])
+
+
     const getUser = async () => {
         try {
             const res = await getUserDetails();
@@ -56,9 +78,9 @@ const GlobalContextProvider = ({ children }) => {
         setIsSuperAdmin(roleType === "super_admin")
     }, []);
 
-    useEffect(() => {
-        getUser()
-    }, [])
+    // useEffect(() => {
+    //     getUser()
+    // }, [])
 
 
     // user roles 
@@ -100,7 +122,7 @@ const GlobalContextProvider = ({ children }) => {
         setFetchingEnrolledCourse(true);
         try {
             const res = await getEnrolledCourse();
-            setEnrolledCourses(res?.enrolledCourses);
+            setEnrolledCourses(res?.courses);
         } catch (error) {
             console.error(error);
         } finally {
@@ -135,7 +157,7 @@ const GlobalContextProvider = ({ children }) => {
             getEnrolledCourses();
             // }
         } catch (error) {
-            toast.error(error?.response?.data?.message);
+            toast.error(error?.response?.data?.message || error?.response?.data?.error);
             console.error(error);
         } finally {
             setEnrolling(false);
@@ -151,7 +173,7 @@ const GlobalContextProvider = ({ children }) => {
     //         const res = await getSuggestJobs();
     //         setJobs(res?.jobs);
     //     } catch (error) {
-    //         toast.error(error?.response?.data?.message);
+    //         toast.error(error?.response?.data?.message || error?.response?.data?.error);
     //         console.error(error);
     //     } finally {
     //         setFetchingJobs(false);
@@ -185,7 +207,7 @@ const GlobalContextProvider = ({ children }) => {
             setCurrentCourse(res?.course);
             setCurrentCourseContent(res?.course?.contents);
         } catch (error) {
-            // toast.error(error?.response?.data?.message);
+            // toast.error(error?.response?.data?.message || error?.response?.data?.error);
             console.error(error);
         } finally {
             setFetchingCourseContent(false);
@@ -199,12 +221,12 @@ const GlobalContextProvider = ({ children }) => {
         setIsDeletingcourse(true);
         try {
             const res = await deleteCourse(courseId);
-
             console.log(res);
             toast.success(res?.message);
+            getLecturerCoursesFunc()
             getCourses()
         } catch (error) {
-            toast.error(error?.response?.data?.message);
+            toast.error(error?.response?.data?.message || error?.response?.data?.error);
             // console.error(error);
         } finally {
             setIsDeletingcourse(false);
@@ -219,7 +241,7 @@ const GlobalContextProvider = ({ children }) => {
             // console.log(response);
             successFunc?.(res)
         } catch (error) {
-            toast.error(error?.response?.data?.message);
+            toast.error(error?.response?.data?.message || error?.response?.data?.error);
             throw error;
         } finally {
             setIsEditing(false)
@@ -234,7 +256,7 @@ const GlobalContextProvider = ({ children }) => {
             // console.log(response);
             successFunc?.(response)
         } catch (error) {
-            toast.error(error?.response?.data?.message);
+            toast.error(error?.response?.data?.message || error?.response?.data?.error);
             throw error;
         } finally {
             setIsEditing(false)
@@ -256,7 +278,7 @@ const GlobalContextProvider = ({ children }) => {
             // console.log(response);
             successFunc?.(response)
         } catch (error) {
-            toast.error(error?.response?.data?.message);
+            toast.error(error?.response?.data?.message || error?.response?.data?.error);
             throw error;
         } finally {
             setIsEditing(false)
@@ -276,7 +298,7 @@ const GlobalContextProvider = ({ children }) => {
             // console.log(response);
             successFunc?.(response)
         } catch (error) {
-            toast.error(error?.response?.data?.message);
+            toast.error(error?.response?.data?.message || error?.response?.data?.error);
             throw error;
         } finally {
             setIsEditing(false)
@@ -297,7 +319,7 @@ const GlobalContextProvider = ({ children }) => {
             console.log(response);
             successFunc?.(response)
         } catch (error) {
-            toast.error(error?.response?.data?.message);
+            toast.error(error?.response?.data?.message || error?.response?.data?.error);
             throw error;
         } finally {
             setIsEditing(false)
@@ -313,7 +335,7 @@ const GlobalContextProvider = ({ children }) => {
             const res = await getEnrolledCourse();
             // setEnrolledCourses(res?.enrolledCourses);
             // console.log("quizz res", res)
-            const allCorses = res?.enrolledCourses
+            const allCorses = res?.courses
             const coursesWithQuiz = allCorses?.filter((item) => item?.quizzes?.[0]?.published)
             setClientQuiz(coursesWithQuiz)
 
@@ -354,7 +376,7 @@ const GlobalContextProvider = ({ children }) => {
             toast.success(res?.message);
             getCourses()
         } catch (error) {
-            toast.error(error?.response?.data?.message);
+            toast.error(error?.response?.data?.message || error?.response?.data?.error);
             // console.error(error);
         } finally {
             setIsDeletingQuiz(false);
@@ -369,9 +391,10 @@ const GlobalContextProvider = ({ children }) => {
         try {
             const res = await publishQuiz(courseId, quizId);
             toast.success(res?.message);
+            getLecturerCoursesFunc()
             getCourses()
         } catch (error) {
-            toast.error(error?.response?.data?.message);
+            toast.error(error?.response?.data?.message || error?.response?.data?.error);
             // console.error(error);
         } finally {
             setIsPublishingQuiz(false);
@@ -388,7 +411,7 @@ const GlobalContextProvider = ({ children }) => {
             // toast.success(response?.message);
             successFunc?.(response)
         } catch (error) {
-            toast.error(error?.response?.data?.message);
+            toast.error(error?.response?.data?.message || error?.response?.data?.error);
             throw error;
         } finally {
             setIsEditing(false)
@@ -413,7 +436,7 @@ const GlobalContextProvider = ({ children }) => {
             setQuizResult(response)
             setRunning(false)
         } catch (error) {
-            toast.error(error?.response?.data?.message);
+            toast.error(error?.response?.data?.message || error?.response?.data?.error);
             throw error;
         } finally {
             setIsSubmittingQuiz(false)
@@ -437,7 +460,7 @@ const GlobalContextProvider = ({ children }) => {
             console.log("creatAdmin", res)
             // getCourses()
         } catch (error) {
-            toast.error(error?.response?.data?.message);
+            toast.error(error?.response?.data?.message || error?.response?.data?.error);
             // console.error(error);
         } finally {
             // setIsPublishingQuiz(false);
@@ -496,19 +519,48 @@ const GlobalContextProvider = ({ children }) => {
             getUsersFunc()
             successFunc?.(res)
         } catch (error) {
-            if (error?.response?.data?.message) {
-                toast.error(error?.response?.data?.message);
-            } else {
-                toast.error(error?.response?.data?.error);
 
-                // console.error("error name", error);
-            }
+            toast.error(error?.response?.data?.message || error?.response?.data?.error);
+
+
         } finally {
             setAddingAdmin(false);
         }
     };
+    // manageAdmin
+    const [managingAdmin, setManagingAdmin] = useState(false)
+    const manageAdminFunc = async (courseId) => {
+        setManagingAdmin(true);
+        try {
+            const res = await manageAdmin(courseId);
+            toast.success(res?.message);
+            // console.log("manage admin", res)
+            getUsersFunc()
+        } catch (error) {
+            toast.error(error?.response?.data?.message || error?.response?.data?.error);
+            // console.error(error);
+        } finally {
+            setManagingAdmin(false);
+        }
+    };
 
+    // addToWatch
 
+    const addToWatchFunc = async (courseId, sectionTitle, lessonTitle) => {
+        // setManagingAdmin(true);
+        try {
+            const res = await addToWatch(courseId, sectionTitle, lessonTitle);
+            toast.success(res?.message);
+            console.log("manage admin", res)
+            // getUsersFunc()
+            getCourseContent(currentCourse?._id)
+        } catch (error) {
+            toast.error(error?.response?.data?.message || error?.response?.data?.error);
+            // console.error(error);
+        } finally {
+            // setManagingAdmin(false);
+        }
+    }
 
 
     // LogOut
@@ -607,6 +659,11 @@ const GlobalContextProvider = ({ children }) => {
         admins,
         students,
         fetchingUsers,
+        // manage admin 
+        manageAdminFunc,
+        managingAdmin,
+        addToWatchFunc,
+        gettingUserRole,
         // Logout
         Logout,
 
