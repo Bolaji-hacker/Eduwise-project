@@ -20,7 +20,7 @@ export function CourseCard({ item, path, enrolFunc, isEnrolled }) {
             navigate("/login");
         }
     };
-    const { teacher, title, duration, enrolledStudents, imageUrl } = item;
+    const { lecturer, title, duration, enrolledStudents, imageUrl } = item;
     return (
         <div>
             <div className="max-w-sm rounded overflow-hidden shadow-lg ">
@@ -44,7 +44,7 @@ export function CourseCard({ item, path, enrolFunc, isEnrolled }) {
                         <p className="pt-2 pb-[0.625rem] text-[0.9375rem] text-[#6A7A83]">
                             Teacher -{" "}
                             <span className="text-[#092ace] font-semibold">
-                                {teacher}
+                                {lecturer?.fullName}
                             </span>{" "}
                         </p>
                     </div>}
