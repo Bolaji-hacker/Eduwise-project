@@ -135,6 +135,14 @@ export const adminRoutes = [
                             </AdminProtectedRoute>
                         ),
 
+                    }, {
+                        path: "manage_lecturers",
+                        element: (
+                            <AdminProtectedRoute>
+                                <Lecturers />
+                            </AdminProtectedRoute>
+                        ),
+
                     },
 
                 ],

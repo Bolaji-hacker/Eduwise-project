@@ -14,7 +14,7 @@ const Register = () => {
     // const { signIn } = useAuthContext();
     const [email, setEmail] = useState("");
     const [name, setName] = useState("");
-    const [role, setRole] = useState("user")
+    // const [role, setRole] = useState("user")
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false)
 
@@ -29,7 +29,7 @@ const Register = () => {
             fullName: name,
             email: email,
             password: password,
-            role: role
+            // role: role
             // interests: interests,
         };
         try {
@@ -90,7 +90,7 @@ const Register = () => {
                         />
                     </div>
                 </div>
-                <div className="mt-3" >
+                {/* <div className="mt-3" >
                     <label htmlFor="role" className="block text-sm/6 font-medium text-gray-900 mb-1">
                         Role
                     </label>
@@ -104,7 +104,7 @@ const Register = () => {
                         <option value="user">Student</option>
                         <option value="lecturer">Lecturer</option>
                     </select>
-                </div>
+                </div> */}
                 <div className="mt-5">
                     <CustomButton type="submit" style="btn btn_primary"
                         showAnimation={loading}

@@ -5,6 +5,7 @@ import HeaderNav from "./HeaderNav";
 
 import { useGlobalContext } from "../../context/ContextExport";
 import Skeleton from "react-loading-skeleton";
+import { superAccessRole } from "../../lib/utilities";
 
 export default function Sidebar() {
     const { userProfile, getUser, Logout, userRole, gettingUserRole } = useGlobalContext();
@@ -71,6 +72,12 @@ export default function Sidebar() {
             label: "Admins",
             url: "manage_admin",
             path: "/admin_dashboard/manage_admin",
+        }] : []),
+        ...(superAccessRole.includes(userRole) ? [{
+            id: 6,
+            label: "Lecturers",
+            url: "manage_lecturers",
+            path: "/admin_dashboard/manage_lecturers",
         }] : []),
     ];
 
