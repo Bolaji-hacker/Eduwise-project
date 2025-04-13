@@ -10,3 +10,8 @@ export const specialAccessRoles = [
     "super_admin",
     "lecturer",
 ];
+
+export const superAccessRole = [
+    "admin",
+    "super_admin",
+]

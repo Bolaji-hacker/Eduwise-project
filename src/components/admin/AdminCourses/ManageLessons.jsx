@@ -185,7 +185,7 @@ const ManageLessons = () => {
                                                 )}
                                             </div>
                                         ))}
-                                        <button type="button"
+                                        {/* <button type="button"
 
                                             onClick={() => isValid && push({ sectionTitle: '', releaseDate: '', lessons: [{ lessonTitle: '', videoUrl: '', duration: '' }] })}
                                             disabled={!isValid}
@@ -193,7 +193,21 @@ const ManageLessons = () => {
                                         >
 
 
-                                            <FaPlus />  Add Section</button>
+                                            <FaPlus />  Add Section</button> */}
+
+
+                                        <button type="button"
+                                            onClick={() => isValid && push({
+                                                sectionTitle: '',
+                                                releaseDate: '',
+                                                sectionNumber: isEdit ? values.sections.length + 1 : undefined,
+                                                lessons: [{ lessonTitle: '', videoUrl: '', duration: '' }]
+                                            })}
+                                            disabled={!isValid}
+                                            className="btn bg-primary_b_dark w-fit  flex items-center gap-2 "
+                                        >
+                                            <FaPlus />  Add Section
+                                        </button>
                                     </div>
                                 )}
                             </FieldArray>

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useGlobalContext } from "../../../context/ContextExport";
 import { CourseCard } from "../../common/CourseCard";
 import { Link } from "react-router-dom";
+import { superAccessRole } from "../../../lib/utilities";
 
 
 const AllAdminCourse = () => {
@@ -23,11 +24,11 @@ const AllAdminCourse = () => {
                     Courses
                 </h3>
 
-                <Link to="/admin_dashboard/create_courses">
+                {!superAccessRole?.includes(userRole) && <Link to="/admin_dashboard/create_courses">
                     <button>
                         Create Course
                     </button>
-                </Link>
+                </Link>}
 
             </div>
             <div className="px-4 md:px-6 py-6 min-h-[60vh] grid grid-cols-1 md:grid-cols-3 gap-5">
